@@ -20,16 +20,16 @@
 
   grid-template-rows: 2fr repeat(2, 1fr);
   grid-template-areas:
-    "first"
-    "second"
-    "third";
+    'first'
+    'second'
+    'third';
 
   @media (min-width: $screen-md) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: auto;
     grid-template-areas:
-      "first second"
-      "first third";
+      'first second'
+      'first third';
   }
   @media (min-width: $screen-lg) {
     width: 80%;
@@ -112,7 +112,7 @@
     object-fit: cover;
     transition: opacity 0.3s ease;
     @media (min-width: $screen-md) {
-      opacity: 0;
+      opacity: 0.5;
     }
   }
   &__image-filter {

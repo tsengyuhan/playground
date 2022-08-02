@@ -1,0 +1,32 @@
+<div style="display: flex; justify-content: center; flex-direction: column;">
+    <img class="post-img" src="{{ .Site.BaseURL }}img/{{ .Page.Params.foldername }}/{{.Get `url`}}" alt="{{.Get `alt`}}"
+        width="{{.Get `imgw`}}" />
+    <figcaption class="post-cap">{{.Get "alt"}} </figcaption>
+    </figure>
+</div>
+
+<style>
+    figcaption.post-cap {
+        color: rgb(54, 54, 54);
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin-top: .5rem;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+
+    img.post-img {
+        border: 1px solid black;
+        margin-top: 0rem;
+        margin-bottom: 0px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .post-img {
+            width: 100%;
+        }
+    }
+</style>
