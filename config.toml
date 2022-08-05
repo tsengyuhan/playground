@@ -1,7 +1,10 @@
-baseURL = "https://yuhantyh.gitlab.io/playground"
+baseURL = "https://yuhantyh.gitlab.io/playground/"
+canonifyURLs = false
 title = "YUHAN's PLAYGROUND"
 author = "Yuhan Tseng"
 copyright = "© 2022, Yuhan Tseng"
+
+enableEmoji = true
 
 # how many posts in one page
 paginate = 4
@@ -36,7 +39,7 @@ ignoreErrors = ["error-missing-instagram-accesstoken"]
   [[menu.main]]
     identifier = "home"
     name = "Home"
-    url = "../"
+    url = "https://yuhantyh.gitlab.io/playground/"
     weight = 1
 
   [[menu.main]]
