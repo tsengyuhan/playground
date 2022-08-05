@@ -9,6 +9,8 @@ enableInlineShortcodes = true
 footnoteReturnLinkContents = "^"
 theme = "origin"
 
+ignoreErrors = ["error-missing-instagram-accesstoken"]
+
 [params]
   description = "simple hugo theme"
   featured = true
