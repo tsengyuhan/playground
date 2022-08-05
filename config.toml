@@ -1,7 +1,7 @@
 baseURL = "https://yuhantyh.gitlab.io/playground/"
-title = "Origin"
-author = "Andrey Parfenov"
-copyright = "© 2020, Andrey Parfenov"
+title = "YUHAN's PLAYGROUND"
+author = "Yuhan Tseng"
+copyright = "© 2022, Yuhan Tseng"
 paginate = 4
 languageCode = "en"
 DefaultContentLanguage = "en"
