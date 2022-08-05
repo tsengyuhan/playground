@@ -7,7 +7,7 @@
 ---
 # All available Hugo versions are listed here:
 # https://gitlab.com/pages/hugo/container_registry
-image: image: registry.gitlab.com/pages/hugo/hugo_extended:latest
+image: registry.gitlab.com/pages/hugo:latest
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -28,4 +28,3 @@ pages:
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
