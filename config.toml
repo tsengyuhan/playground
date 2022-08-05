@@ -2,7 +2,10 @@ baseURL = "https://yuhantyh.gitlab.io/playground"
 title = "YUHAN's PLAYGROUND"
 author = "Yuhan Tseng"
 copyright = "© 2022, Yuhan Tseng"
+
+# how many posts in one page
 paginate = 4
+
 languageCode = "en"
 DefaultContentLanguage = "en"
 enableInlineShortcodes = true
@@ -12,7 +15,7 @@ theme = "origin"
 ignoreErrors = ["error-missing-instagram-accesstoken"]
 
 [params]
-  description = "simple hugo theme"
+  description = "Interactive Installation / New Media / Cats"
   featured = true
   cssonly = false
 
@@ -31,10 +34,28 @@ ignoreErrors = ["error-missing-instagram-accesstoken"]
 [menu]
 
   [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "../"
+    weight = 1
+
+  [[menu.main]]
     identifier = "about"
     name = "About"
     url = "/about/"
-    weight = 10
+    weight = 2
+
+  [[menu.main]]
+    identifier = "works"
+    name = "Works"
+    url = "/works/"
+    weight = 3
+  
+  [[menu.main]]
+    identifier = "fun"
+    name = "Fun"
+    url = "/fun/"
+    weight = 4
 
 [taxonomies]
   category = "categories"
