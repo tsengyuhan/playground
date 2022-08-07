@@ -72,14 +72,14 @@ unsafe= true
   [params.banner]
     enable                = true
     background_image      = "images/backgrounds/hero-background.jpg"
-    heading               = "Interactive Installation / New Media / Cats 🐾​"
-    tagline               = "PLAY HARD and MEANINGFUL"
+    heading               = "Interactive Installation / New Media​"
+    tagline               = "move your mouse up and down, left and right"
     # primary_button        = "See Our Works"
     # primary_button_url    = "portfolio"
     # secondary_button      = "Connect with Us"
     # secondary_button_url  = "contact"
 
-  [params.portfolio]
+  [params.works]
     enable    = true
     title     = "RECENT WORKS"
     subtitle  = "Try different ways to interact with people and the world."

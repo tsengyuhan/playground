@@ -8,13 +8,12 @@
           <h1>
             {{ .Title }}
           </h1>
+          {{ with .Params.image }}
+            <img src="{{ . | absURL }}" class="img-fluid mx-auto d-block rounded" style="margin-bottom: 40px" alt="post-thumb">
+          {{ end }}
+          <p>{{ .Date.Format "January, 2006" }}</p>
           <div class="site-project-single-description">
             {{ .Content }}
-          </div>
-          <div class="site-project-single-image">
-            {{ range .Params.project_images }}
-            <img src="{{ . | absURL }}" alt="project image">
-            {{ end }}
           </div>
           {{ if .NextInSection }}
           <div class="site-project-single-action">
@@ -37,3 +36,4 @@
 {{ partial "call-to-action.html" . }}
 
 {{ end }}
+

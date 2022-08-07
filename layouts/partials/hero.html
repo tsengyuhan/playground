@@ -1,0 +1,29 @@
+{{ with .Site.Params.banner }}
+  {{ if .enable }}
+  {{ "<!-- Site Hero Start -->" | safeHTML }}
+  <section class="site-hero" style="background-color:black">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <div class="site-hero-content text-center">
+            <h4 style="color:rgb(143, 192, 255);">
+              Hi, I'm Yuhan and I play with
+            </h4>
+            <h2 style="color:white;">
+              {{ .heading }}
+            </h2>
+            <h6 style="color:white">
+              {{ .tagline }}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ "<!-- Site Hero End -->" | safeHTML }}
+  {{ end }}
+{{ end }}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="./js/p5.min.js" type="text/javascript"></script>
+<script src="./js/mysketch.js" type="text/javascript"></script>
