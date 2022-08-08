@@ -24,7 +24,7 @@ pages:
     - hugo
   artifacts:
     paths:
-      - resources
+      - public
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

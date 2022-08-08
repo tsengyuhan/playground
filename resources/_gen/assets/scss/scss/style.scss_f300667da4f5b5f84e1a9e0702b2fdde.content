@@ -152,7 +152,7 @@ textarea.form-control {
 
 .site-navigation {
   padding: 20px 0;
-  background: #fff;
+  background: #000;
   position: fixed;
   top: 0;
   width: 100%;
@@ -160,7 +160,7 @@ textarea.form-control {
   transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53); }
   @media (max-width: 991px) {
     .site-navigation {
-      background: #fff;
+      background: #000;
       margin: 10px;
       border-radius: 5px;
       top: 0;
@@ -221,7 +221,7 @@ textarea.form-control {
 
 .site-hero {
   position: relative;
-  height: 100vh;
+  height: 30vh;
   background-size: cover;
   background-position: center center;
   display: flex;
