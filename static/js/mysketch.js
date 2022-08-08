@@ -2,7 +2,6 @@ let myCanvas;
 
 function setup() {
   myCanvas = createCanvas(windowWidth, windowHeight*0.7);
-  myCanvas.class('backgroundsketch');
   background(0);
   
 }
