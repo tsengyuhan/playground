@@ -5,9 +5,11 @@
     position: relative;
     margin-bottom: 30px;
     transition: all 0.3s ease-in;
+    border-radius: 20px;
     &-thumb{
       img{
         width: 100%;
+        border-radius: 20px;
       }
     }
     &-content{
@@ -38,12 +40,12 @@
           }
         }
       }
-      a.read-more{
+      h6.read-more{
         position: absolute;
         bottom: 40px;
         display: block;
         width: 100%;
-        color: $text-color;
+        color: $primary-color;
         opacity: 0;
         transform: translateY(20px);
         transition: all 0.3s $site-ease;
@@ -55,13 +57,13 @@
     }
     &:hover{
       box-shadow: 
-      0px 30px 45px 0px rgba(0, 0, 0, 0.01),
-      0px 30px 45px 0px rgba(0, 0, 0, 0.02),
-      0px 30px 45px 0px rgba(0, 0, 0, 0.03),
-      0px 30px 45px 0px rgba(0, 0, 0, 0.04);
+      0px 0px 45px 10px rgba(251, 210, 215, 0.1),
+      0px 0px 45px 10px rgba(251, 210, 215, 0.12),
+      0px 0px 45px 10px rgba(251, 210, 215, 0.14),
+      0px 0px 45px 10px rgba(251, 210, 215, 0.16);
       .site-project-item-content{
-        a{
-          transform: translateY(0);
+        h6{
+          transform: translateY(10);
           opacity: 1;
         }
         padding-bottom: 75px;
@@ -97,8 +99,8 @@
     }
   }
   &-header{
-    padding: 170px 0 100px;
-    background: $gray;
+    padding: 170px 0 0;
+    background: $black;
     @include tablet{
       padding: 120px 0 80px;
     }
@@ -153,15 +155,17 @@
           font-size: 24px;
           border-radius: 0;
           border: none;
-          padding: 12px 20px;
-          color: $text-color-dark;
+          padding: 10px 20px;
+          color: $white;
           font-weight: 300;
           transition: all 0.3s ease;
+          background-color: transparent;
         }
         &.active{
           .page-link{
             background-color: $primary-color;
             color: $white;
+            border-radius: 50%;
           }
         }
         &.disabled{

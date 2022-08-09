@@ -14,8 +14,8 @@ function draw() {
   beginShape();
   strokeWeight(3);
   noFill();
-  translate(0,height/2-100);
-  let mouseRatio = map(mouseY,100,height,2,0.5);
+  translate(0,height/2);
+  let mouseRatio = map(mouseY,100,height,1.5,0.3);
   let mouseSpeed = map(mouseX,0,width,0,300);
   for(let x=0; x<width; x +=5){
     let y = 

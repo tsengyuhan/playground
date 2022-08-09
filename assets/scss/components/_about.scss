@@ -13,7 +13,6 @@
     flex-wrap: wrap;
   }
   &-company{
-    background: $primary-color;
     width: 40%;
     padding: 70px 38px;
     @include desktop{
@@ -37,6 +36,7 @@
       padding: 0 38px;
     }
     p{
+      color: #00113E;
       font-size: 25px;
       font-weight: 300;
       margin-bottom: 0;

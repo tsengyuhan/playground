@@ -8,6 +8,9 @@
           <h1>
             {{ .Title | safeHTML }}
           </h1>
+          <p>
+          {{ .Params.description }}
+        </p>
         </div>
       </div>
      <!--- <div class="col-lg-4">
@@ -33,6 +36,7 @@
           <div class="site-project-item-content">
             <span>{{ delimit .Params.category ", " }}</span>
             <h3>{{ .Title }}</h3>
+            <h6 class="read-more">read more</h6>
           </div>
         </div>
         </a>

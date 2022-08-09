@@ -35,7 +35,8 @@ unsafe= true
 
 # Site Params
 [params]
-  logo = "images/logo.png"
+  logo = "./images/playground_logo.png"
+  favicon = "./images/favicon.png"
   dateFormat = "26 FEB 1994"
   # Meta data
   description = "Roxo Hugo themes | Design Agency Template by StaticMania"
@@ -63,9 +64,9 @@ unsafe= true
   
   # Navbar Action Button
   [params.navAction]
-    status  = true
-    name    = "Get in touch"
-    url     = "contact"
+    # status  = false
+    # name    = "Get in touch"
+    # url     = "contact"
   
 
   # Banner Section

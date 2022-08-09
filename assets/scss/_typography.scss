@@ -9,7 +9,7 @@ body{
 h1, h2, h3, h4, h5, h6{
   font-family: $secondary-font;
   font-weight: 600;
-  color: $text-color-dark;
+  color: $primary-color;
 }
 
 p{
@@ -27,6 +27,7 @@ h2{
 
 h3{
   font-size: 30px;
+  color: $text-color-dark;
 }
 
 h4{
