@@ -20,6 +20,8 @@ In this interactive artwork, the audience can rearrange his/her/their face, proj
 
 - **Material** : Recycled bottles, plastic bags
 
+- **Equipment** : PC, projector, webcam 
+
 - **Technique** : Face recognition, TouchDesigner
 
 </br>

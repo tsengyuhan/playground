@@ -9,7 +9,6 @@ category: ["Hardward, Machine"]
 
 {{< youtube nBlCu2ZVkhw "16:9" "100">}}
 
-
 #### About this work
 
 Due to my interest in mechanism and kinetic structure, I made this installation and keep developing it with different concepts.
@@ -19,7 +18,7 @@ It is also the project of my [Aalto FabLab](https://fablab.aalto.fi/) journey du
 
 - **Power** : 20V, 4.5A x 2
 
-- **Material** : Plywood, metal sheet, arcylic
+- **Material** : Plywood, metal sheet, arcylic, stepper motor
 
 - **Technique** : Laser cutting, PCB design and making, 3D modeling and printing, motor controlling
 
