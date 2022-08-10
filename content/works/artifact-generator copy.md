@@ -1,9 +1,9 @@
 ---
-title: "ARTIFACT GENERATOR"
+title: "A HOLE IN THE MIND"
 date: 2022-04-22
 type: works
 image: "images/projects/artifact-heroimg.png"
-category: ["Projection mapping, Face Recognition"]
+category: ["Projection mapping"]
 ---
 #### Artifact Generator: an interactive sculpture
 
