@@ -1,5 +1,5 @@
 <div style="display: flex; justify-content: center; flex-direction: column;">
-    <img class="post-img rounded" src="{{ .Site.BaseURL }}/images/{{.Get `url`}}" alt="{{.Get `alt`}}"
+    <img class="post-img rounded" src="{{ .Site.BaseURL }}/images/{{ .Page.Params.type }}/{{.Get `url`}}" alt="{{.Get `alt`}}"
         width="{{.Get `imgw`}}" />
     <!---<figcaption class="post-cap">{{.Get "alt"}} </figcaption>-->
     </figure>
