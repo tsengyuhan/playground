@@ -2,7 +2,7 @@
 title: "ARTIFACT GENERATOR"
 date: 2022-04-22
 type: works
-image: "images/projects/artifact-heroimg.png"
+image: "images/works/artifact-heroimg.png"
 category: ["Projection mapping, Face Recognition"]
 ---
 #### Artifact Generator: an interactive sculpture
