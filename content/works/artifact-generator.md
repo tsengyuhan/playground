@@ -16,7 +16,7 @@ Inspired by the rapid development of artificial intelligence and AR/VR technolog
 
 In this interactive artwork, the audience can rearrange his/her/their face, projecting it on a sculpture that is made of recycled bottles and plastic bags. Try to present the indescribable feeling through an interesting and weird interaction.
 
-- **Size** : 31 x 30 x 20 cm
+- **Size** : 55 x 43 x 90 cm
 
 - **Material** : Recycled bottles, plastic bags
 

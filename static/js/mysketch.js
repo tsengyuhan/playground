@@ -45,3 +45,8 @@ function draw() {
   //stroke(255,map(sin(frameCount/70),-1,1,50,200));//line color
   endShape();//connect all vertex
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight*0.7);
+  background(0);
+}
