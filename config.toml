@@ -7,7 +7,8 @@ summarylength = 25
 enableEmoji = true
 
 [markup.goldmark.renderer]
-unsafe= true
+  unsafe= true
+
 
 # Site Menus
 [menu]

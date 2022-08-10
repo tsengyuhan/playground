@@ -5,15 +5,45 @@ type: works
 image: "images/projects/wave-machine-heroimg.JPG"
 category: ["Hardward, Machine"]
 ---
-#### What is it
-
-This is a kinetic sculpture that can create different moving patterns. It is a matrix that consists of 16 up-down units.
+#### Wave Machine: a kinetic scupture
 
 {{< youtube nBlCu2ZVkhw "16:9" "100">}}
 
 
-#### Why
+#### About this work
 
-I want to make an installation that can imply with different concepts and interactive ways.
+Due to my interest in mechanism and kinetic structure, I made this installation and keep developing it with different concepts.
+It is also the project of my [Aalto FabLab](https://fablab.aalto.fi/) journey during my first year of studying at Aalto University. You can get more detail from [here](https://yuhantyh.gitlab.io/digital-fabrication/final-project/final-project/).
+
+- **Size** : 31 x 30 x 20 cm
+
+- **Power** : 20V, 4.5A x 2
+
+- **Material** : Plywood, metal sheet, arcylic
+
+- **Technique** : Laser cutting, PCB design and making, 3D modeling and printing, motor controlling
+
+</br>
+
+I tried to attach different materials to the machine.
+
+##### Gesture
+The gesture is an important way for humans (maybe also for other animals) of showing their statement and spirit. The sculpture acts like a crowd trying to put out their voice.
+
+{{< postimg url = "wave-machine-gesture.jpg" alt ="gesture version" imgw ="100%" >}}
+
+</br>
+
+##### Mirrors
+A mirror is a tool for people to see themselves. The sculpture moves multiple little mirrors randomly to create a chaotic feeling that I sometimes feel in my mind.
+
+{{< video src = "wave-machine-mirrors.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
+
+</br>
+
+##### Flexible fabrics and projection
+Another material to create an artifact is your face. The application with a user interface can take your eyes, mouth, nose, and skin to create a new skin for the artifact.
+
+{{< video src = "wave-machine-fabric.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
 
