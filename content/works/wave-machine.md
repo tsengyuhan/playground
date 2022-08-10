@@ -2,7 +2,7 @@
 title: "WAVE MACHINE"
 date: 2022-06-03
 type: works
-image: "images/projects/wave-machine-heroimg.JPG"
+image: "images/works/wave-machine-heroimg.JPG"
 category: ["Hardward, Machine"]
 ---
 #### Wave Machine: a kinetic scupture
