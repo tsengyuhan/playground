@@ -72,7 +72,7 @@ function mousePressed() {
   pos_x = mouseX;
 	pos_y = mouseY;
 	
-	let new_cat = new Cat(cat_img[floor(random(3))], random(0.3,0.8) ,pos_x, pos_y, fall_cat_size);
+	let new_cat = new Cat(cat_img[floor(random(3))], random(0.2,0.5) ,pos_x, pos_y, fall_cat_size);
 	append(cat,new_cat);
 
 	pressed = 1;
