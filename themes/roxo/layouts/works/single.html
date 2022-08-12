@@ -8,6 +8,7 @@
           <h1>
             {{ .Title }}
           </h1>
+        </br>
           {{ with .Params.image }}
             <img src="{{ . | absURL }}" class="img-fluid mx-auto d-block rounded" style="margin-bottom: 40px" alt="post-thumb">
           {{ end }}

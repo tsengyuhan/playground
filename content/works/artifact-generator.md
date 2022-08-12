@@ -9,6 +9,7 @@ category: ["Projection mapping, Face Recognition"]
 
 {{< youtube CR-ZAs-5Gag "16:9" "100">}}
 
+</br></br>
 
 #### About this work
 
@@ -28,9 +29,11 @@ In this interactive artwork, the audience can rearrange his/her/their face, proj
 
 
 #### Artifact
+
 ***"An artifact,or artefact, is a general term for an item made or given shape by humans, such as a tool or a work of art, especially an object of archaeological interest."*** (by [wikipedia](https://en.wikipedia.org/wiki/Artifact_(archaeology)))
 
 ##### The Sculpture
+
 One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.
 
 {{< video src = "artifact-sculpture.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}

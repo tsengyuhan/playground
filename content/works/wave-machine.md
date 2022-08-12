@@ -5,9 +5,11 @@ type: works
 image: "images/works/wave-machine-heroimg.JPG"
 category: ["Hardward, Machine"]
 ---
-#### Wave Machine: a kinetic scupture
+#### Wave Machine: a kinetic sculpture
 
 {{< youtube nBlCu2ZVkhw "16:9" "100">}}
+
+</br></br>
 
 #### About this work
 
@@ -41,7 +43,7 @@ A mirror is a tool for people to see themselves. The sculpture moves multiple li
 </br>
 
 ##### Flexible fabrics and projection
-Another material to create an artifact is your face. The application with a user interface can take your eyes, mouth, nose, and skin to create a new skin for the artifact.
+I am curious about the combination of the mechanical structure and the soft material, so I tried to attach a very thin and stretchable fabric to the machine, projecting my other project ['Artiface Generator'](https://yuhantyh.gitlab.io/playground/works/artifact-generator/) on the fabric.
 
 {{< video src = "wave-machine-fabric.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
