@@ -43,7 +43,7 @@ A mirror is a tool for people to see themselves. The sculpture moves multiple li
 </br>
 
 ##### Flexible fabrics and projection
-I am curious about the combination of the mechanical structure and the soft material, so I tried to attach a very thin and stretchable fabric to the machine, projecting my other project ['Artiface Generator'](https://yuhantyh.gitlab.io/playground/works/artifact-generator/) on the fabric.
+I am curious about the combination of the mechanical structure and the soft material, so I tried to attach a very thin and stretchable fabric to the machine, projecting my other project: [Artifact Generator](https://yuhantyh.gitlab.io/playground/works/artifact-generator/) on the fabric.
 
 {{< video src = "wave-machine-fabric.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
