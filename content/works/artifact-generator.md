@@ -9,7 +9,8 @@ category: ["Projection mapping, Face Recognition"]
 
 {{< youtube CR-ZAs-5Gag "16:9" "100">}}
 
-</br></br>
+</br>
+</br>
 
 #### About this work
 
