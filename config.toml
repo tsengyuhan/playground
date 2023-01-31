@@ -25,10 +25,10 @@ enableEmoji = true
     name    = "Works"
     url     = "works"
     weight  = 3
-  [[menu.nav]]
-    name    = "Fun"
-    url     = "fun"
-    weight  = 4
+  # [[menu.nav]]
+   # name    = "Fun"
+    # url     = "fun"
+    # weight  = 4
   [[menu.nav]]
     name    = "Contact"
     url     = "contact"
