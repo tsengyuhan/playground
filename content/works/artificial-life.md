@@ -6,9 +6,7 @@ image: "images/works/artificial-life/heroimg.jpg"
 category: ["Hardward, Machine"]
 ---
 #### Artificial Life
-</br>
-
-{{< video2 src = "artificial-life/using_2.mp4" type = "video/webm" preload = "auto" videow = "80%" >}}
+{{< youtube Qy-Nlg0M9tI "16:9" "100">}}
 
 </br></br>
 
