@@ -1,0 +1,24 @@
+<div class="video-container">
+    <video class="video-shortcode" preload="{{.Get `preload`}}" width="{{.Get `videow`}}" controls>
+        <source src="{{ .Site.BaseURL }}/images/{{ .Page.Params.type }}/{{.Get `src`}}" type="{{.Get `type`}}">
+        There should have been a video here but your browser does not seem
+        to support it.
+    </video>
+</div>
+
+<style>
+    .video-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+
+    }
+
+    video.video-shortcode {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid black;
+        margin-top: 0rem;
+    }
+</style>
