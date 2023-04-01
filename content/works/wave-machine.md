@@ -2,7 +2,7 @@
 title: "WAVE MACHINE"
 date: 2022-06-03
 type: works
-image: "images/works/wave-machine-heroimg.JPG"
+image: "images/works/wave-machine/wave-machine-heroimg.JPG"
 category: ["Hardward, Machine"]
 ---
 #### Wave Machine: a kinetic sculpture
@@ -31,20 +31,20 @@ I tried to attach different materials to the machine.
 ##### Gesture
 The gesture is an important way for humans (maybe also for other animals) of showing their statement and spirit. The sculpture acts like a crowd trying to put out their voice.
 
-{{< postimg url = "wave-machine-gesture.jpg" alt ="gesture version" imgw ="100%" >}}
+{{< postimg url = "wave-machine/wave-machine-gesture.jpg" alt ="gesture version" imgw ="100%" >}}
 
 </br>
 
 ##### Mirrors
 A mirror is a tool for people to see themselves. The sculpture moves multiple little mirrors randomly to create a chaotic feeling that I sometimes feel in my mind.
 
-{{< video src = "wave-machine-mirrors.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
+{{< video src = "wave-machine/wave-machine-mirrors.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
 </br>
 
 ##### Flexible fabrics and projection
 I am curious about the combination of the mechanical structure and the soft material, so I tried to attach a very thin and stretchable fabric to the machine, projecting my other project: [Artifact Generator](https://yuhantyh.gitlab.io/playground/works/artifact-generator/) on the fabric.
 
-{{< video src = "wave-machine-fabric.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
+{{< video src = "wave-machine/wave-machine-fabric.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
 

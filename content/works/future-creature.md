@@ -2,7 +2,7 @@
 title: "FUTURE CREATURE"
 date: 2022-01-17
 type: works
-image: "images/works/creature-heroimg.jpg"
+image: "images/works/future-creature/creature-heroimg.jpg"
 category: ["Hardward, Sound"]
 ---
 #### Future Creature: a interactive sound sculpture
@@ -27,11 +27,11 @@ We are not the only creature that keeps developing on this planet.
 
 You can find more details about the technical part of the project [here](https://www.hackster.io/tseng2/future-creature-an-interactive-installation-5494ff)
 
-{{< postimg url = "creature-branch.JPG" alt ="wood branch" imgw ="80%" >}}
+{{< postimg url = "future-creature/creature-branch.JPG" alt ="wood branch" imgw ="80%" >}}
 </br>
-{{< postimg url = "creature-pic.JPG" alt ="close view" imgw ="80%" >}}
+{{< postimg url = "future-creature/creature-pic.JPG" alt ="close view" imgw ="80%" >}}
 </br>
-{{< postimg url = "creature-pic-2.JPG" alt ="top view" imgw ="80%" >}}
+{{< postimg url = "future-creature/creature-pic-2.JPG" alt ="top view" imgw ="80%" >}}
 
 p.s. I recycled the bottles after the exhibition ended and got a coupon for the market 😃​
 

@@ -2,7 +2,7 @@
 title: "ARTIFACT GENERATOR"
 date: 2022-04-22
 type: works
-image: "images/works/artifact-heroimg.png"
+image: "images/works/artifact/artifact-heroimg.png"
 category: ["Projection mapping, Face Recognition"]
 ---
 #### Artifact Generator: an interactive sculpture
@@ -37,13 +37,13 @@ In this interactive artwork, the audience can rearrange his/her/their face, proj
 
 One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.
 
-{{< video src = "artifact-sculpture.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
+{{< video src = "artifact/artifact-sculpture.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
 </br>
 
 ##### Human's face
 Another material to create an artifact is your face. The application with a user interface can take your eyes, mouth, nose, and skin to create a new skin for the artifact.
 
-{{< video src = "artifact-face.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
+{{< video src = "artifact/artifact-face.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
 
