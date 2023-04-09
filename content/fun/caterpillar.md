@@ -13,6 +13,8 @@ category: ["Game"]
 
 A traditional snake game in 3D form. You are a CATerpillar who can grow longer and longer by eating blue cubes. You are always going ahead, no one can stop you.
 
+Made by Unity
+
 ##### [Try it here](https://tyhcindy.itch.io/caterpillar)
 
 </br>
