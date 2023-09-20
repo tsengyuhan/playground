@@ -35,7 +35,7 @@ In this interactive artwork, the audience can rearrange his/her/their face, proj
 
 ##### The Sculpture
 
-One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.
+One of the materials to create an artifact is the sculpture itself. The sculpture was made of many used bottles and plastic bags, forming a modern fossil.
 
 {{< video src = "artifact/artifact-sculpture.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
