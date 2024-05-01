@@ -122,6 +122,7 @@ body {
   border-color: #EAA4A4;
   font-weight: 300;
   letter-spacing: 1px;
+  appearance: none;
   -webkit-appearance: none;
   height: 42px; }
   .form-control:focus {

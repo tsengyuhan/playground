@@ -16,12 +16,11 @@
       position: absolute;
       background: $gray;
       width: 100%;
-      padding: 10px 50px 20px 50px;
+      padding: 10px 50px 10px 50px;
       bottom: 0;
       transition: all .3s $site-ease;
       @include tablet{
-        padding: 30px;
-        padding-bottom: 75px;
+        padding: 10px 20px;
       }
       span{
         font-family: $secondary-font;
@@ -40,7 +39,7 @@
           }
         }
       }
-      h6.read-more{
+      /*h6.read-more{
         position: absolute;
         bottom: 40px;
         display: block;
@@ -53,7 +52,7 @@
           transform: translateY(0);
           opacity: 1;
         }
-      }
+      }*/
     }
     &:hover{
       box-shadow: 
@@ -61,13 +60,13 @@
       0px 0px 45px 10px rgba(251, 210, 215, 0.12),
       0px 0px 45px 10px rgba(251, 210, 215, 0.14),
       0px 0px 45px 10px rgba(251, 210, 215, 0.16);
-      .site-project-item-content{
+      /*.site-project-item-content{
         h6{
           transform: translateY(10);
           opacity: 1;
         }
         padding-bottom: 75px;
-      }
+      }*/
     }
   }
   &-cta{
