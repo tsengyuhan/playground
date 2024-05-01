@@ -1,5 +1,5 @@
 ---
-title: "Let's dance with music"
+title: "LET'S DANCE WITH MUSIC"
 date: 2022-11-10
 type: works
 image: "images/works/wave-machine2/wave_machinev2_hero.jpg"
