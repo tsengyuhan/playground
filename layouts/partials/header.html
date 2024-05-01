@@ -7,14 +7,16 @@
       class="navbar-toggler collapsed"
       type="button"
       data-toggle="collapse"
-      data-target="#sitenavbar"
+      data-target="#navbarNav"
+      aria-expanded="true"
+      aria-controls="navbar"
     >
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="sitenavbar">
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto main-nav">
         {{$menu := (.Site.Menus.nav)}} 
         {{$len := (len $menu)}} 
