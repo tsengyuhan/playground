@@ -3,7 +3,7 @@ title: "ARTIFACT GENERATOR"
 date: 2022-04-22
 type: works
 image: "images/works/artifact/artifact-heroimg.png"
-category: ["Projection mapping, Face Recognition"]
+category: ["Projection mapping"]
 ---
 #### Artifact Generator: an interactive sculpture
 
@@ -12,20 +12,25 @@ category: ["Projection mapping, Face Recognition"]
 </br>
 </br>
 
-#### About this work
-
-Inspired by the rapid development of artificial intelligence and AR/VR technology, which both try to combine some properties of humans into artifact (most are digital) products. I don't oppose this trend, instead, I'm a little looking forward to the outcome, but I always feel some discord.
-
 In this interactive artwork, the audience can rearrange his/her/their face, projecting it on a sculpture that is made of recycled bottles and plastic bags. Try to present the indescribable feeling through an interesting and weird interaction.
 
 - **Size** : 55 x 43 x 90 cm
 
 - **Material** : Recycled bottles, plastic bags
 
-- **Equipment** : PC, projector, webcam 
+- **Hardware** : PC, projector, webcam 
 
-- **Technique** : Face recognition, TouchDesigner
+- **Software** : TouchDesigner, FaceOSC.app
 
+
+
+#### Design Concept
+
+Inspired by the rapid development of artificial intelligence and AR/VR technology, which both try to combine some properties of humans into artifact (most are digital) products. I don't oppose this trend, instead, I'm a little looking forward to the outcome, but I always feel some discord.
+
+The interface 
+
+ {{< postimg url = "artifact/artifact_concept.jpg" alt ="sketch of the work" imgw ="80%" >}}
 </br>
 
 
@@ -47,3 +52,4 @@ Another material to create an artifact is your face. The application with a user
 {{< video src = "artifact/artifact-face.mp4" type = "video/webm" preload = "auto" videow = "100%" >}}
 
 
+#### Used Techniques

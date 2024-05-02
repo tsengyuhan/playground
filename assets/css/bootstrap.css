@@ -528,9 +528,9 @@ pre code {
     font-size: 25px;
   }
 
-  .p5Canvas {
+  /*.p5Canvas {
     visibility: hidden;
-  }
+  }*/
 
   .reminder_text {
     visibility: hidden;
