@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700|Montserrat:300,400,500,600,700|Work+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700,900|Montserrat:300,400,500,600,700,900|Work+Sans:wght@300;400;500;600;700;900&display=swap');
 
 body{
   font-family: $primary-font;
@@ -12,9 +12,10 @@ h1, h2, h3, h4, h5, h6{
   color: $primary-color;
 }
 
-p{
+p, li{
   font-family: 'Work Sans', sans-serif;
-  font-size: 16px;
+  font-size: 17px;
+  line-height: 1.8;
   color: $white;
 }
 

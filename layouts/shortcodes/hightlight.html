@@ -1,3 +1,15 @@
-<span style="background-color: {{.Get `color`}}">
-    {{.Inner}}
+<span class="hyperlink">
+    <a href="{{.Get `link`}}" target="_blank">
+        <b style="color: #000000; font: wieght 900px;">{{.Inner}}</b>
+    </a>
 </span>
+
+<style>
+    .hyperlink {
+        background-color: #07f7ff;
+    }
+
+    .hyperlink:hover{
+        background-color: #ffff07;
+    }
+</style>

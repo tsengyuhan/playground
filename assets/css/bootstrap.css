@@ -128,6 +128,7 @@ dfn {
 }
 
 b, strong {
+  color: #03f8f4;
   font-weight: bolder
 }
 
@@ -151,15 +152,17 @@ sup {
 }
 
 a {
-  color: #007bff;
+  color: #fff;
+  font-weight: 600;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects
 }
 
 a:hover {
-  color: #0056b3;
-  text-decoration: underline
+  color: #fff;
+  /*text-decoration: underline;*/
+  background-color: transparent;
 }
 
 a:not([href]):not([tabindex]) {
@@ -475,7 +478,7 @@ hr {
 }
 
 code {
-  font-size: 87.5%;
+  font-size: 100%;
   color: #e83e8c;
   word-break: break-word
 }
@@ -8883,7 +8886,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 .font-weight-bold {
-  font-weight: 700 !important
+  font-weight: 900 !important
 }
 
 .font-italic {

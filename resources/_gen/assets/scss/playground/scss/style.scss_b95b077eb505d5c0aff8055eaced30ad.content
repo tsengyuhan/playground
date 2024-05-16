@@ -1,4 +1,4 @@
-@import "https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700|Montserrat:300,400,500,600,700|Work+Sans:wght@300;400;500;600;700&display=swap";
+@import "https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600,700,900|Montserrat:300,400,500,600,70,900|Work+Sans:wght@300;400;500;600;700;900&display=swap";
 body {
   font-family:
     josefin sans,
