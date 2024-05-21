@@ -1,6 +1,5 @@
 window.addEventListener('load', function () {
-  let btn = document.getElementById('btn');
-  let move_left = 0;
+
   let bg = document.getElementById('range');
   let bg_w = bg.offsetWidth;
   let bg_h = bg.offsetHeight;
@@ -9,12 +8,13 @@ window.addEventListener('load', function () {
   let div_h = div.offsetHeight;
 
   let nar_h = 81;
+  //let press_count = 0;
 
 
   let dir_v = 1; //vertical direction
   let dir_h = 1; //horozontal direction
-  let speed_v = speed = getRandomInt(5);
-  let speed_h = speed = getRandomInt(5);
+  let speed_v = getRandomInt(3);
+  let speed_h = getRandomInt(3);
 
 
   //random starting point
@@ -28,13 +28,14 @@ window.addEventListener('load', function () {
   let id = null;
 
   id = setInterval(move, 8);
+  
 
 
   function move() {
     bg_w = bg.offsetWidth;
     bg_h = bg.offsetHeight;
     
-    if ((div_pos_left > bg_w - div_w - 1) || (div_pos_left < 0)) {
+    if ((div_pos_left > bg_w - div_w - 2) || (div_pos_left < 0)) {
       dir_h = dir_h * -1;
       speed_h = getRandomInt(5);
     }
@@ -50,9 +51,10 @@ window.addEventListener('load', function () {
     //console.log(div.style.left);
   }
 
+
   /*div.addEventListener("mouseenter", (e) => {
     console.log('stop');
-    this.clearInterval(id);
+    clearInterval(id);
   });
 
   div.addEventListener("mouseleave", (e) => {
