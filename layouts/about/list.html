@@ -6,16 +6,44 @@
     <div class="row"> 
       <div class="col-12">
         <div class="site-about-wrapper">
-          <div class="site-about-company" style="display: flex;justify-content: center;align-content: center;">
-             <img src="{{ "images/about_img.jpg" | absURL }}" class="rounded-circle" alt="my photo" style="width:80%;" />
+          <div class="site-about-company left-col">
+             <img src="{{ "images/about_img.jpg" | absURL }}" class="rounded-circle" alt="my photo" style="width:80%;"/>
           </div>
-          <div class="site-about-description" style="padding-left: 5px; padding-right: 50px">
+          <div class="site-about-description self-intro">
             <p>
               Hi 🐾 I am Yuhan Tseng (曾鈺涵). I am from Taiwan and currently based in Finland. With the background in <span class="highlight">New Media Design</span> and <span class="highlight">Technological Education</span>, I am passionate about interaction design, creating engaging interactive installations and experiences. Through exploring the interplay between people, technology, and nature, and continuous learning new technology, I strive to solve probelms by creating interesting and meaningful experiences.
             </p>
           </div>
         </div>
       </div>
+    </div>
+    <div class="social-med">
+      <a href="https://www.linkedin.com/in/yuhan-tseng-42b03421a" target="_blank" class="link social">Linkedin</a>
+      <a href="https://www.instagram.com/evilaebesaelp/" target="_blank" class="link social">Instagram</a>
+      <a href="https://www.youtube.com/@tsengyuhan8857" target="_blank" class="link social">YouTube</a>
+      
+    </div>
+    <div class="experience">
+      <h3>Profile</h3>
+      <br>
+      <ul>
+        <li>
+          <span class="light_text">User Centerd Design:</span> When dsgining products and serveices, I focus not only on meeting the required functions but also on creating engaging interactions.</li>
+        <li>
+          <span class="light_text">Multiple Technology Integration: </span>With familiarity in microcontorllers, sensors, and motor control, I also experieneced in various techniques (Processing, p5.js, Unity, Python, C++, TouchDesigner, etc.).
+        </li>
+        <li>
+          <span class="light_text">Exceptional Problem-Solving Skills: </span>Good at breaking down complex requirements into manageable problems and solving them one by one.
+        </li>
+        <li>
+          <span class="light_text">Cross-disciplinary Collaboration: </span>Experiences in working with experts from various fields, enhancing my communication skills and teamwork abilities.
+        </li>
+        <li>
+          <span class="light_text">Passion for Learing: </span>A keen interest in new technologies and continuous learning, keeping curious about the world and people.
+        </li>
+
+
+      </ul>
     </div>
     <div class="experience">
       <h3>Education</h3>
@@ -156,6 +184,26 @@
     color: #096472;
   }
 
+   .social-med{
+    width: 100%;
+    font-size: 1rem;
+    display: flex;
+    justify-content: right;
+    align-content: center;
+    padding-right: 38px;
+    margin-bottom: 50px;
+  }
+
+  .social{
+    color: white;
+    background-color: #17a2b8;
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    margin: 10px;
+  }
+
   .highlight{
     background-color: rgb(253, 196, 235);
     line-height: 2;
@@ -164,7 +212,7 @@
   .experience {
     width: 100%;
     height: auto;
-    padding: 20px 38px 150px 50px;
+    padding: 20px 38px 100px 50px;
 
   }
 
@@ -206,12 +254,28 @@
     float: right;
   }
 
+  .self-intro{
+    padding-left: 5px;
+    padding-right: 50px;
+  }
+
+  .left-col{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
  
-  @media only screen and (max-width:800px) {
+  @media only screen and (max-width:991px) {
 
   h3{
     padding-top: 50px;
   }
+
+  .self-intro{
+    padding: 0;
+  }
+
   .right{
     display: none;
   }
@@ -223,10 +287,22 @@
   .experience {
     padding-left: 5px;
     padding-right: 5px;
+    padding-bottom: 50px;
   }
 
   li{
     text-align: left;
+  }
+
+  .social-med{
+    width: 100%;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding-right: 0px;
+    margin-top: 30px;
+    margin-bottom: 25px;
   }
 
 }
