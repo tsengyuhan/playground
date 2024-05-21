@@ -18,14 +18,14 @@ window.addEventListener('load', function () {
 
 
   //random starting point
-  let div_pos_top = getRandomInt(bg_h - div_h);
+  let div_pos_top = getRandomInt(bg_h - div_h) + nar_h;
   let div_pos_left = getRandomInt(bg_w - div_w);
   //console.log(div_pos_top);
   //console.log(div_pos_left);
   div.style.left = div_pos_left + 'px';
   div.style.top = div_pos_top + 'px';
 
-  let id = setInterval(move, 5);
+  let id = setInterval(move, 8);
 
 
   function move() {
