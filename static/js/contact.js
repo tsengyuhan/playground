@@ -25,12 +25,15 @@ window.addEventListener('load', function () {
   div.style.left = div_pos_left + 'px';
   div.style.top = div_pos_top + 'px';
 
-  let id = setInterval(move, 8);
+  let id = null;
+
+  id = setInterval(move, 8);
 
 
   function move() {
     bg_w = bg.offsetWidth;
     bg_h = bg.offsetHeight;
+    
     if ((div_pos_left > bg_w - div_w - 1) || (div_pos_left < 0)) {
       dir_h = dir_h * -1;
       speed_h = getRandomInt(5);
@@ -54,7 +57,7 @@ window.addEventListener('load', function () {
 
   div.addEventListener("mouseleave", (e) => {
     console.log('start');
-    id = setInterval(move, 5);
+    id = setInterval(move, 8);
   });*/
 
 
