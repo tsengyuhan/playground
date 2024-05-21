@@ -84,7 +84,7 @@ We have designed six Taiwan protected animal coin banks based on the basic model
 
 ##### Outcome 3: Workshop for Kids
 
-One strategy to promote the concept of animal conservation is through children education, so we designed a course integrating the coin bank DIY and STEAM contents, helping children learn the relevant concept and knowledge with hands-on activities and fun.
+One strategy to promote the concept of animal conservation is through children education, so we designed a course integrating the coin bank DIY and STEAM (Science, Technology, Engineering, Art & Humanity, and Mathematics) contents, helping children learn the relevant concept and knowledge with hands-on activities and fun.
 
 {{< postimg url = "coin-bank/outcome3_1.jpg" alt ="outcome3" imgw ="100%" >}}
 </br>

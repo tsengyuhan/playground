@@ -2,8 +2,8 @@
 title: "About Me"
 date: 2023-02-13
 heading : ""
-description : "Hi 🐾 I am Yuhan Tseng, a Taiwanese who is studying New Media Design and Production at Aalto University, Finland. Focusing on interactive installations, new media artwork, and creative solutions of different problems. By learning various techniques and concepts from different people, I keep trying and learning new ways to interact with the world and people."
+description : "Hi 🐾 I am Yuhan. I am from Taiwan 🇹🇼 and based in Finland 🇫🇮 now. With the background in New Media Design and Technology Education, I am passionate about interaction design and interactive installations, exploring the interplay between people, technology, and nature. Committed to continuous learning, I strive to create engaging and meaningful experiences through innovative design."
 
-expertise_title: "I PLAY WITH"
-expertise_sectors: ["Interactive Installation", "Web Design", "Creative Coding", "Digital Fabrication"]
+expertise_title: "PLAYING WITH"
+expertise_sectors: ["🐾 Interactive Installation: Arduino, custom PCB, motor control", "🐾 STEM teaching material 🐾", "🐾 Creative Coding 🐾", "🐾 Digital Fabrication 🐾"]
 ---

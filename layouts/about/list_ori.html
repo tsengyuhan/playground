@@ -1,0 +1,60 @@
+{{ define "main" }}
+
+<div style="height: 100vh; background:white;">
+<section class="site-about-header">
+  <div class="container" style="padding-top: 50px;">
+    <div class="row"> 
+      <div class="col-12">
+        <div class="site-about-wrapper">
+          <div class="site-about-company" style="display: flex;justify-content: center;align-content: center;">
+             <img src="{{ "images/about_img.jpg" | absURL }}" class="rounded-circle" alt="my photo" style="width:80%;" />
+          </div>
+          <div class="site-about-description">
+            <p>
+              <!--{{ .Description }}-->
+              Hi 🐾 I am Yuhan Tseng (曾鈺涵). I am from Taiwan 🇹🇼 and based in Finland 🇫🇮. With the background in New Media Design and Technology Education, I am passionate about interaction design and interactive installations, exploring the interplay between people, technology, and nature. Committed to continuous learning, I strive to create engaging and meaningful experiences through innovative design.
+            </p>
+            <br>
+            <p>
+              I have experience as a research assistant designing STEM educational materials and circuit boards for wearable heating devices. At Aalto's Fablab, I assist with digital fabrication and student projects. I also freelance in creating AR filters for social media. I embrace new tools and materials to design meaningful and enjoyable interactions and services.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--<section class="site-expertise">
+  <div class="container">
+    <div class="row" style="width: 100%; display: block; text-align:center">
+     <ul class="site-expertise-list">
+          {{ range .Params.expertise_sectors }}
+          <li>{{ . }}</li>
+          {{ end }}
+      </ul>
+     {{ with .Params.expertise_title }}
+      <div class="col-md-5">
+        <div class="section-title">
+          <h2>{{ . }}</h2>
+        </div>
+      </div>
+      {{ end }}
+      <div class="col-md-6">
+        <ul class="site-expertise-list">
+          {{ range .Params.expertise_sectors }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>-->
+</div>
+
+
+<!---<script src="../js/p5.min.js" type="text/javascript"></script>
+<script src="../js/fallCat.js" type="text/javascript"></script>---!>
+
+{{ end }}
+
