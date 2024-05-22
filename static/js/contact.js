@@ -66,5 +66,5 @@ window.addEventListener('load', function () {
 })
 
 function getRandomInt(max) {
-  return 1 + Math.floor(Math.random() * max);
+  return 0.5 + Math.floor(Math.random() * max);
 }

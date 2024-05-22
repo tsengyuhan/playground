@@ -1,6 +1,10 @@
 {{ define "main" }}
 <section class="site-contact" id="range">
-  <a href= "mailto: tyhcindy@gmail.com" target="_blank" class="email reminder_text" id="contact"> Contact Me </a>
+  <div class="reminder_text" id="contact">
+    <p class="small-text">catch me &</p>
+    <a href= "mailto: tyhcindy@gmail.com" target="_blank" class="email"> Contact Me </a>
+  </div>
+  <!--<a href= "mailto: tyhcindy@gmail.com" target="_blank" class="email reminder_text" id="contact"> Contact Me </a>-->
   <div class="bg">
       <p class="email show"> tyhcindy@gmail.com</p>
       <a href= "mailto: tyhcindy@gmail.com" target="_blank" class="normallink reminder_text"> tyhcindy@gmail.com</a>
@@ -30,21 +34,39 @@
     color:black;
   }
 
+  .small-text{
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+    color:black;
+  }
+
+  #contact{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index:2000;
+  }
+
   .email{
     font-size: 60px;
     z-index:1000;
     color: rgb(246, 159, 159);
-    position: absolute;
+    /*position: absolute;*/
     /*transition: all .3s ease-out;*/
+    margin: 0;
+    padding: 0;
+    line-height: 1;
   }
 
   .email:hover{
     color: #096472;
   }
 
-  #btn{
-    z-index: 2000;
-  }
 
   .reminder_text{
     visibility: visible;
@@ -70,7 +92,7 @@
     .p5Canvas {
     visibility: hidden;
     }
-    
+
   }
 
 </style>
