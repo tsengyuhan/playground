@@ -1,9 +1,17 @@
 {{ define "main" }}
 <section class="site-contact" id="range">
-  <div class="reminder_text" id="contact">
+  <!--<div class="reminder_text" id="contact">
     <p class="small-text">catch me &</p>
     <a href= "mailto: tyhcindy@gmail.com" target="_blank" class="email"> Contact Me </a>
-  </div>
+  </div>-->
+
+  <a href= "mailto: tyhcindy@gmail.com" target="_blank" class="reminder_text">
+    <div class="email" id="contact">
+      <p class="small-text">catch me &</p>
+      <p class="email">Contact me</p>
+    </div>
+  </a>
+
   <!--<a href= "mailto: tyhcindy@gmail.com" target="_blank" class="email reminder_text" id="contact"> Contact Me </a>-->
   <div class="bg">
       <p class="email show"> tyhcindy@gmail.com</p>
@@ -54,7 +62,7 @@
 
   .email{
     font-size: 60px;
-    z-index:1000;
+    z-index:500;
     color: rgb(246, 159, 159);
     /*position: absolute;*/
     /*transition: all .3s ease-out;*/

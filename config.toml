@@ -30,9 +30,13 @@ enableEmoji = true
     url     = "fun"
     weight  = 4
   [[menu.nav]]
+    #name    = "AR Filter"
+    #url     = "ar-filter"
+    #weight  = 5
+  [[menu.nav]]
     name    = "Contact"
     url     = "contact"
-    weight  = 5
+    weight  = 6
 
 # Site Params
 [params]

@@ -37,11 +37,11 @@ window.addEventListener('load', function () {
     
     if ((div_pos_left > bg_w - div_w - 2) || (div_pos_left < 0)) {
       dir_h = dir_h * -1;
-      speed_h = getRandomInt(5);
+      speed_h = getRandomInt(3);
     }
     if ((div_pos_top > bg_h - div_h  - 1) || (div_pos_top < nar_h)) {
       dir_v = dir_v * -1;
-      speed_v = getRandomInt(5);
+      speed_v = getRandomInt(3);
     }
 
     div_pos_left = div_pos_left + dir_h * speed_v;//width, horozontal
