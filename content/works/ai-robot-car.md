@@ -76,7 +76,7 @@ A robotic arm that allows students to assemble by themselves. Through assembling
 
 ##### Work Distribution
 
-AI 2 Robot City board game was designed and developed by the team of Prof. Hsu. I was the member of the team when in the college as a research assistance. According to the teaching concept of the professor and the team members, my jobs were to **create the robot car, the control APP, and the related teaching materials.** 
+AI 2 Robot City board game was designed and developed by the team of Prof. Hsu. I was the member of the team when in the college as a research assistance. According to the teaching concept of the professor and the team members, my jobs included **design the robot car, the control APP, and the related teaching materials.** 
 
 </br>
 
