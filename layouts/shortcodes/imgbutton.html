@@ -1,0 +1,29 @@
+<div style="width:100%; display:flex; justify-content:center; justify-items: center">
+    <a class="link" href="{{.Get `addr`}}"/>
+        <img class="post-img" src="{{ .Site.BaseURL }}/images/{{ .Page.Params.type }}/{{.Get `url`}}"
+            alt="{{.Get `alt`}}" width="{{.Get `imgw`}}" />
+    </a>
+</div>
+
+
+
+
+<style>
+
+    .link {
+        width:fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    img.post-img {
+        position: relative;
+        margin: 0;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .post-img {
+            width: 50%;
+        }
+    }
+</style>

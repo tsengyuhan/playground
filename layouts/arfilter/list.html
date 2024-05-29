@@ -13,12 +13,6 @@
           </p>
         </div>
       </div>
-      <!--- <div class="col-lg-4">
-        <a href="#project" class="site-project-header-action scroll-to">
-          <span>Scroll Down</span>
-          <img src="{{ "images/arrow-down.svg" | absURL }}" alt="arrow-down">
-        </a>
-      </div>--->
     </div>
   </div>
 </section>
@@ -26,18 +20,18 @@
 <section class="site-project" id="project">
   <div class="container">
     <div class="row">
-      {{ range (.Paginator 4).Pages }}
-      <div class="col-lg-6 col-md-10 mx-auto">
+      {{ range (.Paginator 8).Pages }}
+      <!--<div class="col-lg-6 col-md-10 mx-auto">-->
+        <div class="col-lg-3 col-6 ">
         <a href="{{ .Permalink }}">
           <div class="site-project-item">
             <div class="site-project-item-thumb">
               <img src="{{ .Params.Image | absURL }}" alt="project-thumb">
             </div>
-            <div class="site-project-item-content">
+            <!--<div class="site-project-item-content">
               <span>{{ delimit .Params.category ", " }}</span>
-              <h3>{{ .Title }}</h3>
-              <!--<h6 class="read-more">read more</h6>-->
-            </div>
+              <p class="title">{{ .Title }}</p>
+            </div>-->
           </div>
         </a>
       </div>
@@ -51,5 +45,52 @@
   </div>
 </section>
 
+<style>
+  .site-project-item{
+    height: 100%;
+    /*-webkit-filter: grayscale(60%);*/
+    /*filter: grayscale(60%);*/
+    -webkit-filter: saturate(10%);
+    filter: saturate(10%);
+  }
+
+  .site-project-item:hover{
+    box-shadow: none;
+    -webkit-filter: none;
+    filter:none;
+  }
+
+  .site-project-item-thumb{
+    height: 100%;
+  }
+
+  .site-project-item-content{
+    text-align: center;
+    padding: 10px;
+    opacity: 0.6;
+  }
+
+  .title{
+    font-size: 1.5rem;
+    color:  #00113e;
+    font-family: montserrat, sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+
+  @media only screen and (max-width:991px) {
+
+
+    .site-project-item{
+    height: 100%;
+    -webkit-filter: none;
+    filter: none;
+    }
+
+  }
+
+</style>
 
 {{ end }}
