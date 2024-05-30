@@ -18,8 +18,8 @@ window.addEventListener('load', function () {
 
 
   //random starting point
-  let div_pos_top = getRandomInt(bg_h - div_h) + nar_h;
-  let div_pos_left = getRandomInt(bg_w - div_w);
+  let div_pos_top = getRandomInt(bg_h - div_h - 100) + nar_h + 80;
+  let div_pos_left = getRandomInt(bg_w - div_w - 100) + 80;
   //console.log(div_pos_top);
   //console.log(div_pos_left);
   div.style.left = div_pos_left + 'px';
@@ -28,18 +28,18 @@ window.addEventListener('load', function () {
   let id = null;
 
   id = setInterval(move, 8);
-  
+
 
 
   function move() {
     bg_w = bg.offsetWidth;
     bg_h = bg.offsetHeight;
-    
+
     if ((div_pos_left > bg_w - div_w - 2) || (div_pos_left < 0)) {
       dir_h = dir_h * -1;
       speed_h = getRandomInt(3);
     }
-    if ((div_pos_top > bg_h - div_h  - 1) || (div_pos_top < nar_h)) {
+    if ((div_pos_top > bg_h - div_h - 1) || (div_pos_top < nar_h)) {
       dir_v = dir_v * -1;
       speed_v = getRandomInt(3);
     }
