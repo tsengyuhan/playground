@@ -171,9 +171,10 @@ According to the results, here were brief conclusions of the findings about how 
 
 ##### Conclusions
 
-1. In terms of game experience, playing a maze using In-visible Maze with only audio feedback provided the best overall game experience. 
+1. In terms of game experience, playing a maze using In-visible Maze with only audio feedback provided the best overall game experience, showing that the idea of "people with normal sight to play maze without visuals but still have fun is possible". 
 2. Concerning game performance, participants achieved their best results when playing with vibration feedback alone at easy and medium levels. When the maze became hard level, the combination of audio and vibration feedback proved to be the most effective method for navigating a maze without relying on visuals.
 3. For both game experience and performance, the combined audio and vibration feedback did not necessarily outperform individual feedback modes, even though they were effective when used separately.
+4. The test 
 
 </br></br></br>
 
