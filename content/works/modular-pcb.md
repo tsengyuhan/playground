@@ -7,7 +7,7 @@ category: ["PCB design"]
 draft: false
 ---
 
-#### A programmable platform with modular PCBs for controlling various haptic actuators
+#### A programmable platform with modular PCBs for controlling haptic actuators
 
 </br></br>
 {{< postimg url = "pcb/all-pcb.jpg" alt ="pcb module" imgw ="100%" >}}
