@@ -3,7 +3,7 @@ title: "WAVE MACHINE"
 date: 2022-06-03
 type: works
 image: "images/works/wave-machine/wave-machine-heroimg.JPG"
-category: ["Kinetic sculpture"]
+category: ["Interactive installation"]
 ---
 #### Wave Machine: a kinetic sculpture
 

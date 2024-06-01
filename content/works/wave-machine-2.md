@@ -3,7 +3,7 @@ title: "LET'S DANCE WITH MUSIC"
 date: 2022-11-10
 type: works
 image: "images/works/wave-machine2/wave_machinev2_hero.jpg"
-category: ["Interactive machine"]
+category: ["Interactive installation"]
 ---
 #### Wave Machine v.2: let's dance with music
 

@@ -3,7 +3,7 @@ title: "FUTURE CREATURE"
 date: 2022-01-17
 type: works
 image: "images/works/future-creature/creature-heroimg.jpg"
-category: ["Interactive machine"]
+category: ["Interactive installation"]
 ---
 #### Future Creature: an interactive sound sculpture
 

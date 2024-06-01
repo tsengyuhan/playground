@@ -3,7 +3,7 @@ title: "ARTIFACT GENERATOR"
 date: 2022-04-22
 type: works
 image: "images/works/artifact/artifact-heroimg.png"
-category: ["Projection mapping"]
+category: ["Interactive installation"]
 ---
 #### Artifact Generator: an interactive sculpture
 

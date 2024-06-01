@@ -3,7 +3,7 @@ title: "ARTIFICIAL LIFE"
 date: 2022-12-16
 type: works
 image: "images/works/artificial-life/heroimg.jpg"
-category: ["Interactive machine"]
+category: ["Interactive installation"]
 ---
 #### Artificial Life: an interactive heart
 
