@@ -1,6 +1,7 @@
 ---
 title: "LET'S DANCE WITH MUSIC"
-date: 2022-11-10
+#date: 2022-11-10
+date: 2005-01-01
 type: works
 image: "images/works/wave-machine2/wave_machinev2_hero.jpg"
 category: ["Interactive installation"]

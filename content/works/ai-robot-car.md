@@ -1,6 +1,7 @@
 ---
 title: "AI 2 Robot Car"
-date: 2020-01-01
+#date: 2020-01-01
+date: 2010-01-01
 type: works
 image: "images/works/robot-car/robot-car-hero.jpg"
 category: ["STEM education"]
@@ -19,7 +20,7 @@ This is an assembled robot car for a board game called "AI 2 Robot City". By usi
 
 Because AI technology is developing fast recently, [Prof. Ting-Chia Hsu](http://all.tahrd.ntnu.edu.tw:8080/pages/about/eabout_1.html) from National Taiwan Normal University integrates AI education and STEM project into a board game, which trains players’ logic of computational thinking through playing, developing to a game-based learning kit for primary and secondary school students called AI 2 Robot City.
 
-{{< postimg url = "robot-car/robot-car-img1.jpeg" alt ="intro of the game" imgw ="100%" >}}
+{{< postimg url = "robot-car/how-to-play.png" alt ="intro of the game" imgw ="100%" >}}
 </br></br></br>
 
 
@@ -66,7 +67,12 @@ A robotic arm that allows students to assemble by themselves. Through assembling
 
 {{< youtube tOYc0nm2MT0 "16:9" "100">}}
 
+Here is the user flow of the APP desgin:
+
+{{< postimg url = "robot-car/app-design1.png" alt ="how to use app" imgw ="100%" >}}
 </br>
+{{< postimg url = "robot-car/app-design2.png" alt ="how to use app" imgw ="100%" >}}
+</br></br>
 
 ##### Final Product
 

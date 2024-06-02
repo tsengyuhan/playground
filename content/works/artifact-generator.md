@@ -1,6 +1,7 @@
 ---
 title: "ARTIFACT GENERATOR"
-date: 2022-04-22
+#date: 2022-04-22
+date: 2003-01-01
 type: works
 image: "images/works/artifact/artifact-heroimg.png"
 category: ["Interactive installation"]

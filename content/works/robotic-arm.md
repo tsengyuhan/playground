@@ -1,6 +1,7 @@
 ---
 title: "Robotic Arm DIY Kit"
-date: 2019-02-01
+#date: 2019-02-01
+date: 2008-01-01
 type: works
 image: "images/works/robotic-arm/robotic-arm-hero.jpg"
 category: ["STEM education"]

@@ -1,6 +1,7 @@
 ---
 title: "Automatic Coin Bank DIY Kit"
-date: 2019-03-01
+#date: 2019-03-01
+date: 2009-01-01
 type: works
 image: "images/works/coin-bank/coin-bank_hero.jpg"
 category: ["STEM education"]
