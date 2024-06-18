@@ -33,7 +33,7 @@ This is a course project about basic website programming. I learned how to make 
 #### How to use
 
 - Input the task and press Enter. The created (unfinished) task will show under the input bar, and a task note in the center of the matrix.
-- Darg the task note to a suitable location in the matrix.
+- Drag the task note to a suitable location in the matrix.
 - Check the task note when you finish the task. The finished note will turn into a cat and show on the right panel.
 - Hover the cat head on the right panel to see what tasks you have done.
 - Maximum unfinised tasks are 10, avoiding too ambitious a day.
