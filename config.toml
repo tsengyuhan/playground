@@ -78,7 +78,7 @@ enableEmoji = true
   [params.banner]
     enable                = true
     background_image      = "images/backgrounds/hero-background.jpg"
-    heading               = "Explore coool interaction​"
+    heading               = "Explore Meaningful Interaction​"
     # tagline               = "move your mouse up and down, left and right"
     # primary_button        = "See Our Works"
     # primary_button_url    = "portfolio"
