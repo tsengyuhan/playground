@@ -71,3 +71,10 @@ Each attached cat-like creature has a pair of sexy feet, which are stretchable w
 #### Used Techniques
 
 The machine used TouchDesigner to process the computer's internal audio and send the digital signal to the machine by serial communication. The machine consists of 16 units. Each unit is a stepper motor controlled by an ATtiny412. The whole circuit is integrated into a custom PCB designed by KiCad and manufactured by a milling machine.
+
+</br>
+{{< postimg url = "wave-machine2/process-2.jpeg" alt ="making process" imgw ="100%" >}}
+</br>
+{{< postimg url = "wave-machine2/process-1.jpeg" alt ="making process" imgw ="100%" >}}
+
+</br></br></br>
