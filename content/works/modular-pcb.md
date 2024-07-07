@@ -1,7 +1,7 @@
 ---
 title: "Modular PCB for Haptic Control"
-#date: 2024-01-01
-date: 2007-01-01
+date: 2024-01-01
+#date: 2007-01-01
 type: works
 image: "images/works/pcb/pcb-hero2.jpg"
 category: ["PCB design"]

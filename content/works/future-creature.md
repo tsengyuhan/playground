@@ -1,6 +1,6 @@
 ---
 title: "FUTURE CREATURE"
-date: 2002-01-01
+date: 2021-06-01
 type: works
 image: "images/works/future-creature/creature-heroimg.jpg"
 category: ["Interactive installation"]

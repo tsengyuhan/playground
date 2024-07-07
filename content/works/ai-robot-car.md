@@ -1,7 +1,7 @@
 ---
 title: "AI 2 Robot Car"
-#date: 2020-01-01
-date: 2010-01-01
+date: 2020-01-01
+#date: 2010-01-01
 type: works
 image: "images/works/robot-car/robot-car-hero.jpg"
 category: ["STEM education"]

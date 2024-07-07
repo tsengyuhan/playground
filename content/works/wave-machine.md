@@ -1,7 +1,7 @@
 ---
 title: "WAVE MACHINE"
-#date: 2022-06-03
-date: 2004-01-01
+date: 2022-06-03
+#date: 2004-01-01
 type: works
 image: "images/works/wave-machine/wave-machine-heroimg.JPG"
 category: ["Interactive installation"]

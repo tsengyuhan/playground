@@ -1,7 +1,7 @@
 ---
 title: "ARTIFICIAL LIFE"
-#date: 2022-12-16
-date: 2001-01-01
+date: 2022-12-16
+#date: 2001-01-01
 type: works
 image: "images/works/artificial-life/heroimg.jpg"
 category: ["Interactive installation"]

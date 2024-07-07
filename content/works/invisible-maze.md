@@ -1,7 +1,7 @@
 ---
 title: "In-visible Maze"
-#date: 2024-03-01
-date: 2011-01-01
+date: 2024-03-01
+#date: 2011-01-01
 type: works
 image: "images/works/maze/maze_hero.jpg"
 category: ["Tangible toy"]
