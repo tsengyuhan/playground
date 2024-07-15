@@ -71,6 +71,16 @@ Each unit consisted of a stepper motor, plastic frames, metal plates, and a cust
 
 {{< postimg url = "wave-machine/unit_assemble.jpg" alt ="unit structure" imgw ="80%" >}}
 
+- White part: 3mm transparent acrylic by laser cutting
+- Red part: 2mm matel sheet by EDM machine
+- Yellow part: 3D printing
+- a: M3 5mm screw
+- b: M2 8mm screw
+- c: M3 8mm screw
+- d: M3 20mm screw
+  
+</br>
+
 {{< video src = "wave-machine/wave-machine-unit.mp4" type = "video/webm" preload = "auto" videow = "80%" >}}
 
 
