@@ -69,6 +69,8 @@ The machine is controlled by a TouchDesigner program through serial communicatio
 
 Each unit consisted of a stepper motor, plastic frames, metal plates, and a custom PCB. The plastic frames were made by laser cutter and 3D printer; the metal parts were cut by EDM machine. The custom PCB, which was designed by KiCad and produced by milling machine, integrates a microcontroller ATtiny412 and a motor driver circuit.
 
+{{< postimg url = "wave-machine/unit_assemble.jpg" alt ="unit structure" imgw ="80%" >}}
+
 {{< video src = "wave-machine/wave-machine-unit.mp4" type = "video/webm" preload = "auto" videow = "80%" >}}
 
 
