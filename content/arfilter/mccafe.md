@@ -18,11 +18,11 @@ This was a game filter designed to promote new products of Hong Kong McCafé. Pl
 
 Move your head to control the cup and catch the required ingredients in a specific order. You have 15 seconds to complete the task! The game starts when you start recording. Don't forget to turn on the sound!
 
-<p style="text-align: center">✨ Try it out on your Instagram ✨</p>
+<!--<p style="text-align: center">✨ Try it out on your Instagram ✨</p>
 <p style="text-align: center">⚠️ This event has already ended. This filter is just for the demo. ⚠️</p>
 
 <p style="text-align: center">
-<a href="https://www.instagram.com/ar/473545995233023/" style="font-size: 1.8rem; text-decoration:underline; text-align: center">LINK</a></p>
+<a href="https://www.instagram.com/ar/473545995233023/" style="font-size: 1.8rem; text-decoration:underline; text-align: center">LINK</a></p>-->
 {{< postimg url = "mc-cafe/mc-cafe_qrcode.png" alt ="qrcode" imgw ="20%" >}}
 
 
