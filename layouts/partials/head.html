@@ -1,0 +1,16 @@
+<head>
+  <meta charset="utf-8" />
+  <title>{{ .Title }}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {{ with .Site.Params.author }}
+  <meta name="author" content="{{ . }}">
+  {{ end }}
+  {{ hugo.Generator }}
+
+  <link rel="stylesheet" href="{{ "font-awesome/css/font-awesome.min.css" | absURL }}" />
+  <link rel="stylesheet" href="{{ "css/style.css" | absURL }}" />
+
+  <link rel="shortcut icon" href="{{ "favicon.png" | absURL }}" type="image/x-icon" />
+  <link rel="icon" href="{{ "favicon.png" | absURL }}" type="image/x-icon" />
+</head>

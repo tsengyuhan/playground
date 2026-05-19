@@ -1,0 +1,441 @@
+/*
+ * toilet-paper.css
+ * Portfolio homepage — toilet paper roll UI
+ * Style: retro flat OS-desktop aesthetic (cream/sage, muted, flat)
+ */
+
+:root {
+  --bg-wall:        #CAC5B8;   /* warm taupe — bathroom plaster */
+  --bg-paper:       #F5F1E8;   /* warm cream — toilet paper */
+  --chrome-bar:     #3A3A36;   /* near-black window title bar */
+  --chrome-btn:     #8A8A84;
+  --chrome-border:  #5A5A54;
+  --accent-about:   #B87058;   /* terracotta */
+  --accent-works:   #4E857C;   /* muted teal */
+  --accent-fun:     #8F7E40;   /* warm olive */
+  --text-primary:   #2A2822;
+  --text-secondary: #6A6660;
+  --text-inverse:   #F5F1E8;
+  --shadow-window:  3px 3px 0px #2A2822;
+  --font-ui:        'IBM Plex Mono', 'Courier New', monospace;
+  --font-body:      'IBM Plex Sans', system-ui, sans-serif;
+
+  /*
+   * Layout — CodePen capsule roll (viewBox 480×280).
+   * Roll body: x=50–300, center x=175. Paper lip: x=75–275, center x=175, width=200.
+   * Centering anchor = x=175 (roll & strip share the same 50% viewport center).
+   *
+   *   --roll-face-x = svg_w × (175/480) ≈ 36.5%  → x=175 lands at 50% viewport
+   *   --strip-width = svg_w × (200/480) ≈ 41.7%  → matches lip width exactly
+   *   --paper-start = svg_w × (280/480) ≈ 58.3%  → strip top = SVG bottom edge
+   */
+  --roll-svg-width: min(62vw, 520px);
+  --roll-face-x:    calc(var(--roll-svg-width) * 0.4769);
+  --strip-width:    calc(var(--roll-svg-width) * 0.6769);
+  --paper-start:    calc(var(--roll-svg-width) * 0.0346);
+  --sheet-height:   520px;
+}
+
+/* ─── Scene ─────────────────────────────────────────── */
+
+#tp-scene {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-wall);
+  font-family: var(--font-body);
+  user-select: none;
+}
+
+/* Muted plaster wall — flat with very subtle texture */
+#tp-wall {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: #CAC5B8;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+#tp-wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.14), transparent 60%),
+    radial-gradient(ellipse at 100% 100%, rgba(0,0,0,0.06), transparent 50%);
+}
+
+/* ─── Roll SVG ───────────────────────────────────────── */
+
+#tp-roll-svg {
+  position: absolute;
+  left: calc(50% - var(--roll-face-x));
+  top: 0;
+  width: var(--roll-svg-width);
+  height: auto;
+  z-index: 5;
+  overflow: visible;
+  filter: drop-shadow(6px 10px 0 rgba(60, 48, 32, 0.14));
+}
+
+/* SVG front-face rotation (JS drives this) */
+#tp-roll-outer {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ─── Scroll hint ────────────────────────────────────── */
+
+#tp-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  white-space: nowrap;
+}
+
+/* ─── Paper strip ────────────────────────────────────── */
+
+#tp-strip-wrapper {
+  position: absolute;
+  top: var(--paper-start);
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  width: var(--strip-width);
+  height: calc(100vh - var(--paper-start) + 60px);
+  overflow: visible;
+  /* clip-path set dynamically by JS to follow the roll body's curved top edge */
+  z-index: 10;
+}
+
+#tp-strip {
+  position: relative;
+  width: 100%;
+  will-change: transform;
+  /* Top colour matches roll body cream (#EDEADE) and fades to paper cream over 50px
+     — simulates paper peeling tangentially off the roll surface */
+  background: linear-gradient(to bottom, #EDEADE 0px, var(--bg-paper) 50px, var(--bg-paper) 100%);
+  border-right: 1px solid #5A5A54;
+  /* border-left removed — left edge follows the clip-path arc */
+  /* no border-top — roll body visually merges into the paper here */
+  box-shadow: inset 0 10px 18px rgba(60,48,32,0.10);
+  box-sizing: border-box;
+}
+
+/* ─── Paper sheets ───────────────────────────────────── */
+
+.tp-sheet {
+  width: 100%;
+  height: var(--sheet-height);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.tp-perforation {
+  width: 100%;
+  height: 2px;
+  flex-shrink: 0;
+  border-top: 2px dashed rgba(0,0,0,0.10);
+  background: transparent;
+  position: relative;
+}
+
+/* Small tear notches at perforation ends */
+.tp-perforation::before,
+.tp-perforation::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 6px;
+  height: 8px;
+  background: transparent;
+  border-radius: 50%;
+}
+
+.tp-sheet-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: transparent;
+  box-sizing: border-box;
+  transition: transform 150ms ease;
+  overflow: hidden;
+}
+
+.tp-sheet-window:hover {
+  transform: scale(0.98);
+}
+
+/* ─── OS Window Chrome — Title Bar ───────────────────── */
+
+.tp-win-titlebar {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+}
+
+.tp-win-titlebar[data-cat="about"] { background: var(--accent-about); }
+.tp-win-titlebar[data-cat="works"] { background: var(--accent-works); }
+.tp-win-titlebar[data-cat="fun"]   { background: var(--accent-fun); }
+
+.tp-win-controls {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tp-win-ctrl {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.18);
+  display: block;
+}
+
+.tp-win-ctrl.close { background: #B85252; }
+.tp-win-ctrl.min   { background: #C8A040; }
+.tp-win-ctrl.max   { background: #5A8852; }
+
+.tp-win-label {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: clamp(9px, 0.9vw, 12px);
+  font-weight: 500;
+  color: rgba(245,241,232,0.90);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 24px; /* balance the control buttons */
+}
+
+/* ─── OS Window Body ─────────────────────────────────── */
+
+.tp-win-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 1.8vw, 24px) clamp(12px, 1.5vw, 20px);
+  gap: clamp(10px, 1.2vw, 16px);
+  background: var(--bg-paper);
+}
+
+/* Flat folder icon */
+.tp-folder-icon {
+  width: clamp(56px, 6.5vw, 84px);
+  height: clamp(44px, 5.1vw, 66px);
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Folder tab (top-left flap) */
+.tp-folder-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42%;
+  height: 28%;
+  border-radius: 3px 4px 0 0;
+}
+
+/* Folder body */
+.tp-folder-icon::after {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 2px 4px 3px 3px;
+}
+
+.tp-folder-icon[data-cat="about"]::before,
+.tp-folder-icon[data-cat="about"]::after { background: var(--accent-about); }
+.tp-folder-icon[data-cat="works"]::before,
+.tp-folder-icon[data-cat="works"]::after { background: var(--accent-works); }
+.tp-folder-icon[data-cat="fun"]::before,
+.tp-folder-icon[data-cat="fun"]::after   { background: var(--accent-fun); }
+
+/* Slightly lighter body */
+.tp-folder-icon[data-cat="about"]::after { filter: brightness(1.18); }
+.tp-folder-icon[data-cat="works"]::after { filter: brightness(1.18); }
+.tp-folder-icon[data-cat="fun"]::after   { filter: brightness(1.18); }
+
+.tp-win-name {
+  font-family: var(--font-ui);
+  font-size: clamp(11px, 1.2vw, 15px);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.tp-win-desc {
+  font-family: var(--font-body);
+  font-size: clamp(10px, 1.0vw, 13px);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ─── OS Window Status Bar ───────────────────────────── */
+
+.tp-win-statusbar {
+  height: 20px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  color: var(--text-secondary);
+  background: rgba(0,0,0,0.03);
+  flex-shrink: 0;
+}
+
+/* ─── Expanded window overlay ────────────────────────── */
+
+#tp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(42, 40, 34, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+#tp-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#tp-win {
+  width: 80vw;
+  max-width: 900px;
+  height: 80vh;
+  background: var(--bg-paper);
+  border: 1px solid var(--chrome-border);
+  box-shadow: 6px 6px 0px #2A2822;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.15);
+  will-change: transform;
+}
+
+#tp-win-chrome {
+  height: 32px;
+  background: var(--chrome-bar);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+#tp-win-close {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #B85252;
+  border: 1px solid rgba(0,0,0,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: transparent;
+  font-family: var(--font-ui);
+  transition: color 120ms ease;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+#tp-win-close:hover { color: #fff; }
+
+#tp-win-title {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: rgba(245,241,232,0.85);
+  letter-spacing: 0.06em;
+}
+
+#tp-win-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+#tp-win-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ─── Mobile ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  :root {
+    --roll-svg-width: min(96vw, 520px);
+    --roll-face-x:    calc(var(--roll-svg-width) * 0.4769);
+    --strip-width:    calc(var(--roll-svg-width) * 0.6769);
+    --paper-start:    calc(var(--roll-svg-width) * 0.0346);
+    --sheet-height:   360px;
+  }
+
+  #tp-roll-svg {
+    left: calc(50% - var(--roll-face-x));
+    top: 0;
+  }
+
+  #tp-strip-wrapper {
+    transform: translateX(-50%);
+    height: calc(100vh - var(--paper-start) + 40px);
+  }
+
+  .tp-folder-icon {
+    width: 50px;
+    height: 39px;
+  }
+
+  .tp-win-titlebar { height: 26px; }
+
+  .tp-win-statusbar { height: 18px; }
+
+  #tp-win {
+    width: 96vw;
+    height: 90vh;
+  }
+
+  #tp-hint { font-size: 10px; }
+}

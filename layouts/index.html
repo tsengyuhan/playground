@@ -1,5 +1,138 @@
 {{ define "main" }}
-{{ partial "hero.html" . }}
+<style>
+  nav.navbar, header { display: none !important; }
+  body { margin: 0; padding: 0; overflow: hidden; }
+  main { padding: 0 !important; margin: 0 !important; }
+</style>
+<link rel="stylesheet" href="{{ "css/toilet-paper.css" | absURL }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<div id="tp-scene">
+  <div id="tp-wall"></div>
+
+  <!--
+    CodePen capsule roll — key insight from the reference:
+    • Only ONE face visible (the near/left face oval).  No far-end face drawn.
+    • Paper strip sits IN FRONT of the roll (strip z-index > roll z-index).
+    • Paper appears to come OVER the top of the roll and hang down in front.
+
+    SVG coordinates (viewBox 0 0 520 280):
+      Capsule rect:  x=44  y=18  w=380 h=240  rx=28 ry=120
+        → left edge x=44, right edge x=424
+        → left-face half-ellipse center: cx=72  cy=138
+      Paper strip centering anchor: x=239  (center of x=100..378, width=278)
+      --roll-face-x targets x=239 so the strip center lands at 50% viewport
+      --paper-start targets y=115 so the strip starts ~40% into the roll height,
+        giving the "paper drapes over the front" visual
+  -->
+  <svg id="tp-roll-svg" viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-label="Toilet paper roll">
+    <defs>
+      <linearGradient id="tp-roll-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="60%" stop-color="#EDEADE"/>
+        <stop offset="60%" stop-color="#B8B4A4"/>
+      </linearGradient>
+      <linearGradient id="tp-face-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="60%" stop-color="#F5F1E8"/>
+        <stop offset="60%" stop-color="#CAC6B6"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Wall bracket -->
+    <rect x="0" y="126" width="50" height="24" rx="2" fill="#4A4A44"/>
+    <rect x="1" y="127" width="48" height="22" rx="1" fill="#5A5A54"/>
+
+    <!-- Axle rod -->
+    <line x1="0" y1="138" x2="46" y2="138" stroke="#3A3A36" stroke-width="2.5"/>
+
+    <!-- ── Roll body capsule ───────────────────────────────────────────
+         rx=28 (horizontal corner radius), ry=120 = height/2 → both ends
+         become complete half-ellipses (no straight left/right sides).
+         This is the side-view cylinder perspective from the CodePen.
+         Gradient: lit cream top 60%, shadow gray bottom 40%. ────────── -->
+    <rect x="44" y="18" width="380" height="240"
+          rx="28" ry="120"
+          fill="url(#tp-roll-grad)" stroke="#5A5A54" stroke-width="1.5"/>
+
+    <!-- ── Near face — the ONLY face drawn (left end, facing viewer) ──
+         Centered at cx=72 (= 44+28), cy=138 (= 18+120).
+         This group rotates on scroll (transform-box/origin set in CSS).
+         Concentric rings give depth; core drawn fixed on top. ────────── -->
+    <g id="tp-roll-outer">
+      <ellipse cx="72" cy="138" rx="28" ry="120"
+               fill="url(#tp-face-grad)" stroke="#5A5A54" stroke-width="1.5"/>
+      <ellipse cx="72" cy="138" rx="21" ry="90"  fill="none" stroke="#D5D0C4" stroke-width="1"/>
+      <ellipse cx="72" cy="138" rx="15" ry="65"  fill="none" stroke="#DDD9CE" stroke-width="1"/>
+    </g>
+
+    <!-- Core — drawn after tp-roll-outer so it stays fixed while rings spin -->
+    <ellipse cx="72" cy="138" rx="10" ry="44" fill="#C4A87A" stroke="#5A5A54" stroke-width="1.5"/>
+    <ellipse cx="72" cy="138" rx="6"  ry="27" fill="#B89468"/>
+  </svg>
+
+  <div id="tp-hint">↓ scroll to pull</div>
+
+  <!--
+    Strip wrapper starts at --paper-start (≈40% into the roll height).
+    Its z-index is HIGHER than the SVG roll, so it drapes over the front face,
+    giving the "paper comes from top of roll and hangs in front" look.
+  -->
+  <div id="tp-strip-wrapper">
+    <div id="tp-strip">
+      {{ $categories := slice
+        (dict "key" "about" "title" "ABOUT ME / 關於我" "url" "/about/")
+        (dict "key" "works" "title" "WORKS / 作品集"    "url" "/works/")
+        (dict "key" "fun"   "title" "FUN / 趣味"        "url" "/fun/")
+      }}
+      {{ range seq 3 }}
+        {{ range $cat := $categories }}
+          <div class="tp-sheet" data-category="{{ $cat.key }}"
+               data-url="{{ $cat.url | absURL }}" data-title="{{ $cat.title }}">
+            <div class="tp-perforation"></div>
+            <div class="tp-sheet-window">
+              <div class="tp-win-titlebar" data-cat="{{ $cat.key }}">
+                <div class="tp-win-controls">
+                  <span class="tp-win-ctrl close"></span>
+                  <span class="tp-win-ctrl min"></span>
+                  <span class="tp-win-ctrl max"></span>
+                </div>
+                <span class="tp-win-label">{{ $cat.title }}</span>
+              </div>
+              <div class="tp-win-body">
+                <div class="tp-folder-icon" data-cat="{{ $cat.key }}"></div>
+                <div class="tp-win-name">{{ $cat.title }}</div>
+                {{ if eq $cat.key "about" }}
+                  <div class="tp-win-desc">who i am &amp; what i do</div>
+                {{ else if eq $cat.key "works" }}
+                  <div class="tp-win-desc">projects &amp; portfolio</div>
+                {{ else if eq $cat.key "fun" }}
+                  <div class="tp-win-desc">playful experiments</div>
+                {{ end }}
+              </div>
+              <div class="tp-win-statusbar">
+                <span>click to open</span>
+                <span>▪▪▪</span>
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+
+  <div id="tp-overlay" aria-hidden="true">
+    <div id="tp-win">
+      <div id="tp-win-chrome">
+        <button id="tp-win-close" aria-label="Close">×</button>
+        <span id="tp-win-title"></span>
+      </div>
+      <div id="tp-win-body">
+        <iframe id="tp-win-frame" src="" title="Content" frameborder="0"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ "js/toilet-paper.js" | absURL }}"></script>
 {{ end }}
-
-
