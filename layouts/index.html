@@ -81,9 +81,9 @@
   <div id="tp-strip-wrapper">
     <div id="tp-strip">
       {{ $categories := slice
-        (dict "key" "about" "title" "ABOUT ME / 關於我" "url" "/about/")
-        (dict "key" "works" "title" "WORKS / 作品集"    "url" "/works/")
-        (dict "key" "fun"   "title" "FUN / 趣味"        "url" "/fun/")
+        (dict "key" "about" "title" "ABOUT ME / 關於我" "url" "about/")
+        (dict "key" "works" "title" "WORKS / 作品集"    "url" "works/")
+        (dict "key" "fun"   "title" "FUN / 趣味"        "url" "fun/")
       }}
       {{ range seq 3 }}
         {{ range $cat := $categories }}
