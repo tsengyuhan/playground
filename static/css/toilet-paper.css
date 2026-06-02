@@ -29,11 +29,11 @@
    *   --strip-width = svg_w × (200/480) ≈ 41.7%  → matches lip width exactly
    *   --paper-start = svg_w × (280/480) ≈ 58.3%  → strip top = SVG bottom edge
    */
-  --roll-svg-width: min(62vw, 520px);
+  --roll-svg-width: min(72vw, 860px);
   --roll-face-x:    calc(var(--roll-svg-width) * 0.4769);
   --strip-width:    calc(var(--roll-svg-width) * 0.6769);
   --paper-start:    calc(var(--roll-svg-width) * 0.0346);
-  --sheet-height:   520px;
+  --sheet-height:   580px;
 }
 
 /* ─── Scene ─────────────────────────────────────────── */
@@ -46,6 +46,11 @@
   background: var(--bg-wall);
   font-family: var(--font-body);
   user-select: none;
+  cursor: grab;
+}
+
+#tp-scene:active {
+  cursor: grabbing;
 }
 
 /* Muted plaster wall — flat with very subtle texture */

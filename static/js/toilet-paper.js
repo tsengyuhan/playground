@@ -15,6 +15,9 @@
   let snapTimer = null;
   let touchStartY = 0;
   let expandedSource = null;
+  let isDragging = false;
+  let dragLastY = 0;
+  let hasDragged = false;
 
   const scene = document.getElementById('tp-scene');
   const strip = document.getElementById('tp-strip');
@@ -35,14 +38,42 @@
     return a + (b - a) * t;
   }
 
-  // Scroll DOWN = pull paper = offset decreases = strip moves down, revealing earlier sheets
+  // Scroll DOWN = pull paper = offset increases = strip moves up, revealing more paper
   scene.addEventListener('wheel', (e) => {
     e.preventDefault();
     if (overlay.classList.contains('is-open')) return;
-    targetOffset -= e.deltaY * SCROLL_SCALE;
+    targetOffset += e.deltaY * SCROLL_SCALE;
     hideHint();
     scheduleSnap();
   }, { passive: false });
+
+  // Mouse drag — paper follows cursor
+  scene.addEventListener('mousedown', (e) => {
+    if (overlay.classList.contains('is-open')) return;
+    isDragging = true;
+    hasDragged = false;
+    dragLastY = e.clientY;
+    clearTimeout(snapTimer);
+    scene.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dy = e.clientY - dragLastY;
+    if (Math.abs(dy) > 2) hasDragged = true;
+    targetOffset -= dy;
+    dragLastY = e.clientY;
+    hideHint();
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    scene.style.cursor = '';
+    if (hasDragged) scheduleSnap();
+    setTimeout(() => { hasDragged = false; }, 50);
+  });
 
   scene.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
@@ -140,6 +171,7 @@
 
   document.querySelectorAll('.tp-sheet-window').forEach((el) => {
     el.addEventListener('click', (e) => {
+      if (hasDragged) return;
       e.stopPropagation();
       openWindow(el.closest('.tp-sheet'));
     });
