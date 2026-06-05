@@ -33,7 +33,14 @@
   --roll-face-x:    calc(var(--roll-svg-width) * 0.4769);
   --strip-width:    calc(var(--roll-svg-width) * 0.6769);
   --paper-start:    calc(var(--roll-svg-width) * 0.0346);
-  --sheet-height:   580px;
+  --clip-safe-left: calc(var(--strip-width) * 0.09);
+  /* Shift roll + paper right by ~half the roll's left overhang so the whole
+     composition (roll cap on the left + the hanging paper) sits centred
+     in the viewport instead of leaning left. */
+  --scene-shift:    calc(var(--roll-svg-width) * 0.07);
+  /* A single sheet must always fit the viewport height (title bar → status
+     bar) so nothing is clipped on short windows. */
+  --sheet-height:   min(600px, calc(100vh - 64px));
 }
 
 /* ─── Scene ─────────────────────────────────────────── */
@@ -78,7 +85,7 @@
 
 #tp-roll-svg {
   position: absolute;
-  left: calc(50% - var(--roll-face-x));
+  left: calc(50% - var(--roll-face-x) + var(--scene-shift));
   top: 0;
   width: var(--roll-svg-width);
   height: auto;
@@ -116,7 +123,7 @@
 #tp-strip-wrapper {
   position: absolute;
   top: var(--paper-start);
-  left: 50%;
+  left: calc(50% + var(--scene-shift));
   transform: translateX(-50%);
   transform-origin: top center;
   width: var(--strip-width);
@@ -138,6 +145,22 @@
   /* no border-top — roll body visually merges into the paper here */
   box-shadow: inset 0 10px 18px rgba(60,48,32,0.10);
   box-sizing: border-box;
+}
+
+/* Paper fibre/grain printed across the whole tissue — scrolls with the strip.
+   Two layers: fine grain speckle + faint long horizontal fibres. */
+#tp-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;            /* over the sheet windows so the whole strip reads as one sheet of paper */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='90'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.16' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 200px 200px, 260px 90px;
+  mix-blend-mode: multiply;
+  opacity: 0.2;
 }
 
 /* ─── Paper sheets ───────────────────────────────────── */
@@ -192,7 +215,7 @@
   height: 30px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 10px 0 calc(var(--clip-safe-left) + 10px);
   gap: 8px;
   flex-shrink: 0;
   border-bottom: 1px solid rgba(0,0,0,0.25);
@@ -233,6 +256,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding-right: 24px; /* balance the control buttons */
+  filter: url(#tp-ink-text);   /* printed-ink edge */
 }
 
 /* ─── OS Window Body ─────────────────────────────────── */
@@ -243,7 +267,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(14px, 1.8vw, 24px) clamp(12px, 1.5vw, 20px);
+  padding: clamp(14px, 1.8vw, 24px) clamp(12px, 1.5vw, 20px) clamp(14px, 1.8vw, 24px) calc(var(--clip-safe-left) + clamp(12px, 1.5vw, 20px));
   gap: clamp(10px, 1.2vw, 16px);
   background: var(--bg-paper);
 }
@@ -297,6 +321,7 @@
   color: var(--text-primary);
   text-align: center;
   letter-spacing: 0.04em;
+  filter: url(#tp-ink-text);   /* printed-ink edge */
 }
 
 .tp-win-desc {
@@ -305,6 +330,59 @@
   color: var(--text-secondary);
   text-align: center;
   line-height: 1.5;
+  filter: url(#tp-ink-text);   /* printed-ink edge */
+}
+
+/* ─── Work sheet — hero image instead of folder icon ─── */
+
+.tp-win-body--work {
+  justify-content: flex-start;
+  gap: clamp(8px, 1vw, 12px);
+  padding: clamp(12px, 1.5vw, 18px) clamp(12px, 1.5vw, 18px) clamp(12px, 1.5vw, 18px) calc(var(--clip-safe-left) + clamp(12px, 1.5vw, 18px));
+}
+
+/* Framed hero thumbnail filling the bulk of the window body.
+   The image is made to look PRINTED on the cream paper — pure CSS, no
+   external texture assets:
+     1. paper-cream background shows through the image via mix-blend multiply
+     2. the photo is softened (lower contrast, warm desaturation) → ink, not screen
+     3. an SVG-generated grain is multiplied on top → paper fibre / print noise */
+.tp-work-thumb {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-paper);   /* no frame — image prints straight onto the paper */
+}
+
+.tp-work-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Single-colour print: greyscale → green/cream duotone, then an ink-bleed
+     displacement so the edges look stamped into the paper rather than crisp. */
+  filter: url(#tp-duotone) url(#tp-ink-img) contrast(1.05) brightness(1.02);
+}
+
+/* Fine paper grain — keeps the printed-ink texture without the halftone dots */
+.tp-work-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
+  opacity: 0.08;
+}
+
+/* Work title sits below the hero, no longer wrapped on a single line */
+.tp-sheet-window--work .tp-win-name {
+  white-space: normal;
+  line-height: 1.35;
 }
 
 /* ─── OS Window Status Bar ───────────────────────────── */
@@ -312,7 +390,7 @@
 .tp-win-statusbar {
   height: 20px;
   border-top: 1px solid rgba(0,0,0,0.08);
-  padding: 0 8px;
+  padding: 0 8px 0 calc(var(--clip-safe-left) + 8px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -415,11 +493,12 @@
     --roll-face-x:    calc(var(--roll-svg-width) * 0.4769);
     --strip-width:    calc(var(--roll-svg-width) * 0.6769);
     --paper-start:    calc(var(--roll-svg-width) * 0.0346);
-    --sheet-height:   360px;
+    --scene-shift:    calc(var(--roll-svg-width) * 0.07);
+    --sheet-height:   min(440px, calc(100vh - 48px));
   }
 
   #tp-roll-svg {
-    left: calc(50% - var(--roll-face-x));
+    left: calc(50% - var(--roll-face-x) + var(--scene-shift));
     top: 0;
   }
 

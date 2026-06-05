@@ -12,6 +12,10 @@
   let targetOffset = 0;
   let currentOffset = 0;
   let SHEET_H = 280;
+  // Seamless-loop period in sheets. Set from #tp-strip[data-period-sheets]
+  // (3 sheets × works count) so each work appears once per period; falls back
+  // to a single about/works/fun cycle if the attribute is absent.
+  let PERIOD_SHEETS = SHEETS_PER_CYCLE;
   let snapTimer = null;
   let touchStartY = 0;
   let expandedSource = null;
@@ -112,15 +116,15 @@
 
     strip.style.transform = `translateY(${-currentOffset}px)`;
 
-    const cycleHeight = SHEET_H * SHEETS_PER_CYCLE;
+    const period = SHEET_H * PERIOD_SHEETS;
 
     // Clamp so user can't push paper back above the roll
-    if (targetOffset > cycleHeight * 2) targetOffset = cycleHeight * 2;
+    if (targetOffset > period * 2) targetOffset = period * 2;
 
-    // When offset drops into the first cycle, jump up by one cycle seamlessly
-    if (currentOffset < cycleHeight && targetOffset < cycleHeight) {
-      currentOffset += cycleHeight;
-      targetOffset += cycleHeight;
+    // When offset drops into the first period, jump up by one period seamlessly
+    if (currentOffset < period && targetOffset < period) {
+      currentOffset += period;
+      targetOffset += period;
     }
 
     requestAnimationFrame(tick);
@@ -230,12 +234,24 @@
 
   function init() {
     SHEET_H = getSheetHeight();
-    // Start at 2 cycles deep so pulling down reveals content from above seamlessly
-    const cycleHeight = SHEET_H * SHEETS_PER_CYCLE;
-    targetOffset = cycleHeight * 2;
-    currentOffset = cycleHeight * 2;
+    PERIOD_SHEETS = parseInt(strip.dataset.periodSheets, 10) || SHEETS_PER_CYCLE;
+    // Start 2 periods deep so pulling down reveals content from above seamlessly
+    const period = SHEET_H * PERIOD_SHEETS;
+    targetOffset = period * 2;
+    currentOffset = period * 2;
     updatePaperClip();
-    window.addEventListener('resize', updatePaperClip);
+    window.addEventListener('resize', () => {
+      updatePaperClip();
+      // Sheet height is viewport-relative now — rescale the scroll offsets so
+      // the sheet currently in view stays aligned after a resize.
+      const oldH = SHEET_H;
+      SHEET_H = getSheetHeight();
+      if (oldH > 0 && SHEET_H !== oldH) {
+        const ratio = SHEET_H / oldH;
+        targetOffset *= ratio;
+        currentOffset *= ratio;
+      }
+    });
     requestAnimationFrame(tick);
   }
 

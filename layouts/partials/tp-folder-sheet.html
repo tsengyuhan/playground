@@ -1,0 +1,31 @@
+{{- /*
+  Folder-style toilet-paper sheet for a category landing page (about / fun).
+  Params:
+    key   — category key (about | fun | works) → drives accent colour
+    title — window label / name
+    url   — page to open in the overlay iframe
+    desc  — short description line (may contain HTML entities)
+*/ -}}
+<div class="tp-sheet" data-category="{{ .key }}"
+     data-url="{{ .url | absURL }}" data-title="{{ .title }}">
+  <div class="tp-perforation"></div>
+  <div class="tp-sheet-window">
+    <div class="tp-win-titlebar" data-cat="{{ .key }}">
+      <div class="tp-win-controls">
+        <span class="tp-win-ctrl close"></span>
+        <span class="tp-win-ctrl min"></span>
+        <span class="tp-win-ctrl max"></span>
+      </div>
+      <span class="tp-win-label">{{ .title }}</span>
+    </div>
+    <div class="tp-win-body">
+      <div class="tp-folder-icon" data-cat="{{ .key }}"></div>
+      <div class="tp-win-name">{{ .title }}</div>
+      <div class="tp-win-desc">{{ .desc | safeHTML }}</div>
+    </div>
+    <div class="tp-win-statusbar">
+      <span>click to open</span>
+      <span>▪▪▪</span>
+    </div>
+  </div>
+</div>

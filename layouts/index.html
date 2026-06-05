@@ -4,9 +4,42 @@
   body { margin: 0; padding: 0; overflow: hidden; }
   main { padding: 0 !important; margin: 0 !important; }
 </style>
-<link rel="stylesheet" href="{{ "css/toilet-paper.css" | absURL }}">
+{{ $cssVer := readFile "static/css/toilet-paper.css" | hash.FNV32a }}
+<link rel="stylesheet" href="{{ (printf "css/toilet-paper.css?v=%d" $cssVer) | absURL }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Duotone print filter for work hero images: greyscale → map shadows to a deep
+     version of the works-green (#4E857C) and highlights to the paper cream, so the
+     photo reads as a single-colour ink print on paper. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="tp-duotone" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix"
+      values="0.299 0.587 0.114 0 0
+              0.299 0.587 0.114 0 0
+              0.299 0.587 0.114 0 0
+              0     0     0     1 0"/>
+    <feComponentTransfer>
+      <!-- tableValues = [shadow, highlight] per channel -->
+      <feFuncR type="table" tableValues="0.137 0.961"/>
+      <feFuncG type="table" tableValues="0.255 0.945"/>
+      <feFuncB type="table" tableValues="0.231 0.910"/>
+    </feComponentTransfer>
+  </filter>
+
+  <!-- Ink-bleed: roughen edges with fine fractal noise so text/images look
+       stamped into the paper fibres rather than crisply rendered on screen. -->
+  <filter id="tp-ink-text" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.3"
+                       xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="tp-ink-img">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="11" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"
+                       xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
 
 <div id="tp-scene">
   <div id="tp-wall"></div>
@@ -78,36 +111,42 @@
     Its z-index is HIGHER than the SVG roll, so it drapes over the front face,
     giving the "paper comes from top of roll and hangs in front" look.
   -->
+  {{ $works := where .Site.RegularPages "Type" "works" }}
   <div id="tp-strip-wrapper">
-    <div id="tp-strip">
-      {{ $categories := slice
-        (dict "key" "about" "title" "ABOUT ME / 關於我" "url" "about/")
-        (dict "key" "works" "title" "WORKS / 作品集"    "url" "works/")
-        (dict "key" "fun"   "title" "FUN / 趣味"        "url" "fun/")
-      }}
+    {{/*
+      Each cycle = [ABOUT folder] [one WORK] [FUN folder].
+      The WORK slot advances every cycle; after the last work it repeats
+      from the first, so the strip reads:
+        [about][work1][fun] [about][work2][fun] … [about][workN][fun] [about][work1]…
+      data-period-sheets tells the scroll script the seamless-loop period
+      (3 sheets × number of works). The whole period is rendered 3× so the
+      infinite-scroll wrap always has content above and below the active copy.
+    */}}
+    <div id="tp-strip" data-period-sheets="{{ mul 3 (len $works) }}">
       {{ range seq 3 }}
-        {{ range $cat := $categories }}
-          <div class="tp-sheet" data-category="{{ $cat.key }}"
-               data-url="{{ $cat.url | absURL }}" data-title="{{ $cat.title }}">
+        {{ range $w := $works }}
+          {{ partial "tp-folder-sheet" (dict "key" "about" "title" "ABOUT ME / 關於我" "url" "about/" "desc" "who i am &amp; what i do") }}
+
+          {{/* ── WORK sheet: hero image + title, opens the work's own page ── */}}
+          <div class="tp-sheet" data-category="works"
+               data-url="{{ $w.Permalink }}" data-title="{{ $w.Title }}">
             <div class="tp-perforation"></div>
-            <div class="tp-sheet-window">
-              <div class="tp-win-titlebar" data-cat="{{ $cat.key }}">
+            <div class="tp-sheet-window tp-sheet-window--work">
+              <div class="tp-win-titlebar" data-cat="works">
                 <div class="tp-win-controls">
                   <span class="tp-win-ctrl close"></span>
                   <span class="tp-win-ctrl min"></span>
                   <span class="tp-win-ctrl max"></span>
                 </div>
-                <span class="tp-win-label">{{ $cat.title }}</span>
+                <span class="tp-win-label">{{ $w.Title }}</span>
               </div>
-              <div class="tp-win-body">
-                <div class="tp-folder-icon" data-cat="{{ $cat.key }}"></div>
-                <div class="tp-win-name">{{ $cat.title }}</div>
-                {{ if eq $cat.key "about" }}
-                  <div class="tp-win-desc">who i am &amp; what i do</div>
-                {{ else if eq $cat.key "works" }}
-                  <div class="tp-win-desc">projects &amp; portfolio</div>
-                {{ else if eq $cat.key "fun" }}
-                  <div class="tp-win-desc">playful experiments</div>
+              <div class="tp-win-body tp-win-body--work">
+                <div class="tp-work-thumb">
+                  <img src="{{ $w.Params.image | absURL }}" alt="{{ $w.Title }}" loading="lazy">
+                </div>
+                <div class="tp-win-name">{{ $w.Title }}</div>
+                {{ with $w.Params.category }}
+                  <div class="tp-win-desc">{{ delimit . " · " }}</div>
                 {{ end }}
               </div>
               <div class="tp-win-statusbar">
@@ -116,6 +155,8 @@
               </div>
             </div>
           </div>
+
+          {{ partial "tp-folder-sheet" (dict "key" "fun" "title" "FUN / 趣味" "url" "fun/" "desc" "playful experiments") }}
         {{ end }}
       {{ end }}
     </div>
@@ -134,5 +175,6 @@
   </div>
 </div>
 
-<script src="{{ "js/toilet-paper.js" | absURL }}"></script>
+{{ $jsVer := readFile "static/js/toilet-paper.js" | hash.FNV32a }}
+<script src="{{ (printf "js/toilet-paper.js?v=%d" $jsVer) | absURL }}"></script>
 {{ end }}

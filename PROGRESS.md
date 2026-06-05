@@ -1,6 +1,6 @@
 # Redesign Progress
 
-Last updated: 2026-05-19
+Last updated: 2026-06-06
 
 ## Status: Phase 1 + Homepage done — Waiting on visual reference for full redesign
 
@@ -47,6 +47,8 @@ Last updated: 2026-05-19
 3. Click a sheet to open category in an in-page window
 4. CSS: `static/css/toilet-paper.css`, JS: `static/js/toilet-paper.js`
 5. Added `layouts/partials/head.html` to load fonts
+6. Updated the roll strip so each cycle shows About, one individual Work sheet, then Fun; WORK sheets now use project hero images with a printed-paper treatment
+7. Fixed the curved roll clip issue by keeping each sheet/window background aligned to the paper edge while shifting only titlebar/body/statusbar contents into the visible safe area
 
 ### Phase 3: Visual redesign
 *(Blocked — waiting on visual reference)*
@@ -84,3 +86,4 @@ Last updated: 2026-05-19
 - Configured Codex exec to use `workspace-write` sandbox by default via `~/.zshrc` shell function (2026-05-19)
 - Built toilet-paper-scroll interactive homepage; CSS/JS in `static/`, layout in `layouts/index.html` (2026-05-19)
 - Added `layouts/partials/head.html` for custom `<head>` with IBM Plex font loading (2026-05-19)
+- Refined homepage toilet-paper UI: individual WORK sheets, cache-busted CSS/JS links, print texture/duotone filters, viewport-fit sheet height, scene centering, and content-only clip-safe left padding for curved roll edges (2026-06-06)
