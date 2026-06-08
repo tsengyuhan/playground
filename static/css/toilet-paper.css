@@ -94,6 +94,21 @@
   filter: drop-shadow(6px 10px 0 rgba(60, 48, 32, 0.14));
 }
 
+/* Fixed grey spindle — same geometry/position as the roll SVG, sits in front
+   of the roll's core (z 7) but behind the hanging paper (z 10). Stays put while
+   rolls pull out of / dock into it during a category switch. */
+#tp-spindle-svg {
+  position: absolute;
+  left: calc(50% - var(--roll-face-x) + var(--scene-shift));
+  top: 0;
+  width: var(--roll-svg-width);
+  height: auto;
+  z-index: 7;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(3px 4px 0 rgba(60, 48, 32, 0.18));
+}
+
 /* SVG front-face rotation (JS drives this) */
 #tp-roll-outer {
   transform-box: fill-box;
@@ -485,6 +500,206 @@
   display: block;
 }
 
+/* ═══════════════════════════════════════════════════════
+   Left rail — small rolls for the two non-active categories
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  --mini-w: 158px;
+  --mini-h: 96px;
+}
+
+#tp-rail {
+  position: absolute;
+  left: clamp(16px, 3.5vw, 48px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vh, 40px);
+  /* New minis are appended at the BOTTOM, matching the "dock to the bottom of
+     the rail" animation described for the outgoing centre roll. */
+  justify-content: center;
+}
+
+.tp-mini {
+  position: relative;
+  width: var(--mini-w);
+  height: var(--mini-h);
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: transform 200ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.tp-mini:hover { transform: translateX(8px) scale(1.05); }
+.tp-mini:active { transform: translateX(4px) scale(1.0); }
+
+.tp-mini svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(3px 5px 0 rgba(60, 48, 32, 0.16));
+}
+
+/* Printed category label across the mini roll's paper */
+.tp-mini-label {
+  position: absolute;
+  left: 34%;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  pointer-events: none;
+  filter: url(#tp-ink-text);
+}
+
+.tp-mini-label .en {
+  display: block;
+  font-size: clamp(13px, 1.4vw, 17px);
+  color: var(--text-primary);
+}
+
+.tp-mini-label .zh {
+  display: block;
+  font-size: clamp(9px, 0.95vw, 11px);
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
+}
+
+.tp-mini[data-cat="about"] .tp-mini-label .en { color: var(--accent-about); }
+.tp-mini[data-cat="works"] .tp-mini-label .en { color: var(--accent-works); }
+.tp-mini[data-cat="fun"]   .tp-mini-label .en { color: var(--accent-fun); }
+
+/* ═══════════════════════════════════════════════════════
+   ABOUT sheets — plain paper, no coloured title bar
+   ═══════════════════════════════════════════════════════ */
+
+.tp-sheet-window--about { cursor: pointer; }
+
+.tp-win-body--about {
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 20px);
+  padding: clamp(20px, 3vw, 40px) clamp(18px, 2.2vw, 30px) clamp(20px, 3vw, 40px) calc(var(--clip-safe-left) + clamp(18px, 2.2vw, 30px));
+  background: var(--bg-paper);
+}
+
+.tp-about-photo {
+  width: clamp(120px, 16vw, 200px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(42, 40, 34, 0.18);
+}
+
+.tp-about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* match the printed-ink look of work heroes */
+  filter: url(#tp-duotone) url(#tp-ink-img) contrast(1.04) brightness(1.02);
+}
+
+.tp-about-lead {
+  max-width: 34ch;
+}
+
+.tp-win-body--list { justify-content: center; }
+
+.tp-about-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 14px);
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.1vw, 14px);
+  color: var(--text-primary);
+  line-height: 1.45;
+  max-width: 38ch;
+}
+
+.tp-about-list li {
+  padding: 6px 12px;
+  background: rgba(143, 126, 64, 0.10);
+  border-left: 3px solid var(--accent-about);
+  filter: url(#tp-ink-text);
+}
+
+.tp-about-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: clamp(11px, 1.1vw, 14px);
+  color: var(--accent-about);
+  font-weight: 600;
+}
+
+/* Subtle status line (no accent block) for about sheets */
+.tp-win-statusbar--about {
+  background: rgba(184, 112, 88, 0.08);
+  color: var(--accent-about);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Category switch — pull-out / shrink / dock animation
+   ═══════════════════════════════════════════════════════ */
+
+/* Smooth transition helper applied to the strip while it retracts / extends.
+   Removed afterwards so the rAF scroll loop drives the transform directly. */
+#tp-strip.tp-anim {
+  transition: transform 420ms cubic-bezier(0.5, 0, 0.2, 1);
+}
+
+/* The whole centre composition (roll + paper) fades while the flyer travels */
+#tp-roll-svg.tp-fade,
+#tp-strip-wrapper.tp-fade {
+  transition: opacity 260ms ease;
+  opacity: 0;
+}
+
+/* Flyer — a travelling roll graphic used during the swap */
+#tp-fly-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+
+.tp-flyer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: top left;
+  will-change: transform, opacity;
+}
+
+.tp-flyer svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+  filter: drop-shadow(4px 7px 0 rgba(60, 48, 32, 0.16));
+}
+
+.tp-flyer .tp-mini-label {
+  transition: opacity 200ms ease;
+}
+
+/* Block scene interaction while a switch is animating */
+#tp-scene.is-switching { cursor: default; }
+#tp-scene.is-switching #tp-rail { pointer-events: none; }
+
 /* ─── Mobile ─────────────────────────────────────────── */
 
 @media (max-width: 768px) {
@@ -497,7 +712,8 @@
     --sheet-height:   min(440px, calc(100vh - 48px));
   }
 
-  #tp-roll-svg {
+  #tp-roll-svg,
+  #tp-spindle-svg {
     left: calc(50% - var(--roll-face-x) + var(--scene-shift));
     top: 0;
   }
@@ -522,4 +738,13 @@
   }
 
   #tp-hint { font-size: 10px; }
+
+  :root { --mini-w: 96px; --mini-h: 60px; }
+
+  #tp-rail {
+    left: 8px;
+    gap: 16px;
+  }
+
+  .tp-about-photo { width: clamp(96px, 30vw, 140px); }
 }

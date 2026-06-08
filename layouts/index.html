@@ -44,20 +44,18 @@
 <div id="tp-scene">
   <div id="tp-wall"></div>
 
+  <!-- Left rail — small toilet-paper rolls for the two NON-active categories.
+       Built by JS (toilet-paper.js → buildRail). Clicking one swaps it into
+       the centre via the pull-out / shrink / dock animation. -->
+  <div id="tp-rail" aria-label="Other sections"></div>
+
   <!--
+    Centre stage — the big roll + the hanging paper strip.
     CodePen capsule roll — key insight from the reference:
     • Only ONE face visible (the near/left face oval).  No far-end face drawn.
     • Paper strip sits IN FRONT of the roll (strip z-index > roll z-index).
-    • Paper appears to come OVER the top of the roll and hang down in front.
-
-    SVG coordinates (viewBox 0 0 520 280):
-      Capsule rect:  x=44  y=18  w=380 h=240  rx=28 ry=120
-        → left edge x=44, right edge x=424
-        → left-face half-ellipse center: cx=72  cy=138
-      Paper strip centering anchor: x=239  (center of x=100..378, width=278)
-      --roll-face-x targets x=239 so the strip center lands at 50% viewport
-      --paper-start targets y=115 so the strip starts ~40% into the roll height,
-        giving the "paper drapes over the front" visual
+    • A fixed grey spindle cylinder is drawn IN FRONT of the brown core, so it
+      reads as a fixed rod passing through the tube; its outer (left) end is cut.
   -->
   <svg id="tp-roll-svg" viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg"
        role="img" aria-label="Toilet paper roll">
@@ -70,28 +68,23 @@
         <stop offset="60%" stop-color="#F5F1E8"/>
         <stop offset="60%" stop-color="#CAC6B6"/>
       </linearGradient>
+      <!-- Grey spindle shading: lit top, shadowed belly -->
+      <linearGradient id="tp-spindle-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#B4B0A6"/>
+        <stop offset="45%" stop-color="#9A968C"/>
+        <stop offset="100%" stop-color="#74716A"/>
+      </linearGradient>
     </defs>
-
-    <!-- Wall bracket -->
-    <rect x="0" y="126" width="50" height="24" rx="2" fill="#4A4A44"/>
-    <rect x="1" y="127" width="48" height="22" rx="1" fill="#5A5A54"/>
-
-    <!-- Axle rod -->
-    <line x1="0" y1="138" x2="46" y2="138" stroke="#3A3A36" stroke-width="2.5"/>
 
     <!-- ── Roll body capsule ───────────────────────────────────────────
          rx=28 (horizontal corner radius), ry=120 = height/2 → both ends
-         become complete half-ellipses (no straight left/right sides).
-         This is the side-view cylinder perspective from the CodePen.
-         Gradient: lit cream top 60%, shadow gray bottom 40%. ────────── -->
+         become complete half-ellipses (no straight left/right sides). ── -->
     <rect x="44" y="18" width="380" height="240"
           rx="28" ry="120"
           fill="url(#tp-roll-grad)" stroke="#5A5A54" stroke-width="1.5"/>
 
     <!-- ── Near face — the ONLY face drawn (left end, facing viewer) ──
-         Centered at cx=72 (= 44+28), cy=138 (= 18+120).
-         This group rotates on scroll (transform-box/origin set in CSS).
-         Concentric rings give depth; core drawn fixed on top. ────────── -->
+         Centered at cx=72 (= 44+28), cy=138 (= 18+120). ────────────── -->
     <g id="tp-roll-outer">
       <ellipse cx="72" cy="138" rx="28" ry="120"
                fill="url(#tp-face-grad)" stroke="#5A5A54" stroke-width="1.5"/>
@@ -104,63 +97,38 @@
     <ellipse cx="72" cy="138" rx="6"  ry="27" fill="#B89468"/>
   </svg>
 
+  <!-- ── Fixed grey spindle cylinder — SEPARATE fixed layer ──────────────
+       Drawn over the roll's core (same viewBox & position as #tp-roll-svg) so
+       it sits IN FRONT of the brown core: a fixed rod passing through the tube.
+       It is its OWN element so it stays put while the roll pulls out / docks
+       in during a category switch — rolls slide out of and into this cylinder.
+       The shaft runs off the left past the viewBox (x negative) → outer end
+       cut flat. -->
+  <svg id="tp-spindle-svg" viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- The shaft ends INSIDE the brown core (right edge ≈ x=74, core spans
+         x=62–82) so the rod reads as "passing into the tube" rather than poking
+         out in front of the paper. No front cap — the paper/rings stay visible
+         to the right of the core. The left end runs off past the viewBox so its
+         outer end is cut flat. -->
+    <g id="tp-spindle">
+      <rect x="-30" y="123" width="112" height="30" rx="3"
+            fill="url(#tp-spindle-grad)" stroke="#5A5A54" stroke-width="1.5"/>
+      <!-- crisp top highlight line -->
+      <rect x="-29" y="126" width="110" height="5" rx="2.5" fill="#C2BEB4" opacity="0.8"/>
+    </g>
+  </svg>
+
   <div id="tp-hint">↓ scroll to pull</div>
 
-  <!--
-    Strip wrapper starts at --paper-start (≈40% into the roll height).
-    Its z-index is HIGHER than the SVG roll, so it drapes over the front face,
-    giving the "paper comes from top of roll and hangs in front" look.
-  -->
-  {{ $works := where .Site.RegularPages "Type" "works" }}
+  <!-- Paper strip wrapper — its contents (#tp-strip) are built by JS for the
+       currently-active centre category. z-index higher than the roll so the
+       paper drapes over the front face. clip-path follows the roll's curve. -->
   <div id="tp-strip-wrapper">
-    {{/*
-      Each cycle = [ABOUT folder] [one WORK] [FUN folder].
-      The WORK slot advances every cycle; after the last work it repeats
-      from the first, so the strip reads:
-        [about][work1][fun] [about][work2][fun] … [about][workN][fun] [about][work1]…
-      data-period-sheets tells the scroll script the seamless-loop period
-      (3 sheets × number of works). The whole period is rendered 3× so the
-      infinite-scroll wrap always has content above and below the active copy.
-    */}}
-    <div id="tp-strip" data-period-sheets="{{ mul 3 (len $works) }}">
-      {{ range seq 3 }}
-        {{ range $w := $works }}
-          {{ partial "tp-folder-sheet" (dict "key" "about" "title" "ABOUT ME / 關於我" "url" "about/" "desc" "who i am &amp; what i do") }}
-
-          {{/* ── WORK sheet: hero image + title, opens the work's own page ── */}}
-          <div class="tp-sheet" data-category="works"
-               data-url="{{ $w.Permalink }}" data-title="{{ $w.Title }}">
-            <div class="tp-perforation"></div>
-            <div class="tp-sheet-window tp-sheet-window--work">
-              <div class="tp-win-titlebar" data-cat="works">
-                <div class="tp-win-controls">
-                  <span class="tp-win-ctrl close"></span>
-                  <span class="tp-win-ctrl min"></span>
-                  <span class="tp-win-ctrl max"></span>
-                </div>
-                <span class="tp-win-label">{{ $w.Title }}</span>
-              </div>
-              <div class="tp-win-body tp-win-body--work">
-                <div class="tp-work-thumb">
-                  <img src="{{ $w.Params.image | absURL }}" alt="{{ $w.Title }}" loading="lazy">
-                </div>
-                <div class="tp-win-name">{{ $w.Title }}</div>
-                {{ with $w.Params.category }}
-                  <div class="tp-win-desc">{{ delimit . " · " }}</div>
-                {{ end }}
-              </div>
-              <div class="tp-win-statusbar">
-                <span>click to open</span>
-                <span>▪▪▪</span>
-              </div>
-            </div>
-          </div>
-
-          {{ partial "tp-folder-sheet" (dict "key" "fun" "title" "FUN / 趣味" "url" "fun/" "desc" "playful experiments") }}
-        {{ end }}
-      {{ end }}
-    </div>
+    <div id="tp-strip"></div>
   </div>
+
+  <!-- Flyers (pull-out / dock animation) are injected here by JS -->
+  <div id="tp-fly-layer" aria-hidden="true"></div>
 
   <div id="tp-overlay" aria-hidden="true">
     <div id="tp-win">
@@ -174,6 +142,92 @@
     </div>
   </div>
 </div>
+
+{{/* ─────────────────────────────────────────────────────────────────────
+     Sheet templates — one per category. JS clones the matching template's
+     contents (3×) into #tp-strip for the active centre roll.
+   ───────────────────────────────────────────────────────────────────── */}}
+
+{{ $works := where .Site.RegularPages "Type" "works" }}
+{{ $funs  := where .Site.RegularPages "Type" "fun" }}
+{{ $about := .Site.GetPage "/about" }}
+
+{{/* WORK — each sheet = one work: hero image + title, opens its own page */}}
+<template id="tpl-sheets-works">
+  {{ range $w := $works }}
+    {{ partial "tp-item-sheet" (dict "cat" "works" "page" $w) }}
+  {{ end }}
+</template>
+
+{{/* FUN — each sheet = one fun item: hero image + title */}}
+<template id="tpl-sheets-fun">
+  {{ range $f := $funs }}
+    {{ partial "tp-item-sheet" (dict "cat" "fun" "page" $f) }}
+  {{ end }}
+</template>
+
+{{/* ABOUT — split into several plain sheets (no coloured title bar), divided
+     by perforations. Every sheet opens the full About page in the overlay. */}}
+<template id="tpl-sheets-about">
+  {{ $aboutURL := "about/" | absURL }}
+
+  <div class="tp-sheet" data-category="about" data-url="{{ $aboutURL }}" data-title="ABOUT ME / 關於我">
+    <div class="tp-perforation"></div>
+    <div class="tp-sheet-window tp-sheet-window--about">
+      <div class="tp-win-body tp-win-body--about">
+        <div class="tp-about-photo">
+          <img src="{{ "images/about_img.jpg" | absURL }}" alt="Yuhan Tseng" loading="lazy">
+        </div>
+        <div class="tp-win-name">ABOUT ME / 關於我</div>
+        <div class="tp-win-desc tp-about-lead">
+          Hi 🐾 I'm Yuhan Tseng（曾鈺涵）— an interaction designer &amp; new media artist
+          from Taiwan, based in Finland. I build playful interactive installations
+          exploring people, technology &amp; nature.
+        </div>
+      </div>
+      <div class="tp-win-statusbar tp-win-statusbar--about">
+        <span>about me / 關於我</span><span>click to open ▸</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tp-sheet" data-category="about" data-url="{{ $aboutURL }}" data-title="ABOUT ME / 關於我">
+    <div class="tp-perforation"></div>
+    <div class="tp-sheet-window tp-sheet-window--about">
+      <div class="tp-win-body tp-win-body--about tp-win-body--list">
+        <div class="tp-win-name">{{ with $about }}{{ .Params.expertise_title | default "PLAYING WITH" }}{{ else }}PLAYING WITH{{ end }}</div>
+        <ul class="tp-about-list">
+          {{ with $about }}
+            {{ range .Params.expertise_sectors }}
+              <li>{{ . }}</li>
+            {{ end }}
+          {{ end }}
+        </ul>
+      </div>
+      <div class="tp-win-statusbar tp-win-statusbar--about">
+        <span>about me / 關於我</span><span>click to open ▸</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tp-sheet" data-category="about" data-url="{{ $aboutURL }}" data-title="ABOUT ME / 關於我">
+    <div class="tp-perforation"></div>
+    <div class="tp-sheet-window tp-sheet-window--about">
+      <div class="tp-win-body tp-win-body--about">
+        <div class="tp-win-name">SAY HI / 找我玩</div>
+        <div class="tp-win-desc tp-about-links">
+          <span>🔗 LinkedIn</span>
+          <span>▶ YouTube</span>
+          <span>✉ tyhcindy@gmail.com</span>
+        </div>
+        <div class="tp-win-desc">Open to interaction design &amp; creative-tech collaborations.</div>
+      </div>
+      <div class="tp-win-statusbar tp-win-statusbar--about">
+        <span>about me / 關於我</span><span>click to open ▸</span>
+      </div>
+    </div>
+  </div>
+</template>
 
 {{ $jsVer := readFile "static/js/toilet-paper.js" | hash.FNV32a }}
 <script src="{{ (printf "js/toilet-paper.js?v=%d" $jsVer) | absURL }}"></script>

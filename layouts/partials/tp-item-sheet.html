@@ -1,0 +1,34 @@
+{{- /*
+  Hero-image toilet-paper sheet for a single works/fun item.
+  Params:
+    cat  — category key (works | fun) → drives accent colour
+    page — the Hugo page for the item (uses .Title, .Permalink, .Params.image,
+           .Params.category)
+*/ -}}
+<div class="tp-sheet" data-category="{{ .cat }}"
+     data-url="{{ .page.Permalink }}" data-title="{{ .page.Title }}">
+  <div class="tp-perforation"></div>
+  <div class="tp-sheet-window tp-sheet-window--work">
+    <div class="tp-win-titlebar" data-cat="{{ .cat }}">
+      <div class="tp-win-controls">
+        <span class="tp-win-ctrl close"></span>
+        <span class="tp-win-ctrl min"></span>
+        <span class="tp-win-ctrl max"></span>
+      </div>
+      <span class="tp-win-label">{{ .page.Title }}</span>
+    </div>
+    <div class="tp-win-body tp-win-body--work">
+      <div class="tp-work-thumb">
+        <img src="{{ .page.Params.image | absURL }}" alt="{{ .page.Title }}" loading="lazy">
+      </div>
+      <div class="tp-win-name">{{ .page.Title }}</div>
+      {{ with .page.Params.category }}
+        <div class="tp-win-desc">{{ delimit . " · " }}</div>
+      {{ end }}
+    </div>
+    <div class="tp-win-statusbar">
+      <span>click to open</span>
+      <span>▪▪▪</span>
+    </div>
+  </div>
+</div>

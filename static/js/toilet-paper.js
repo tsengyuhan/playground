@@ -1,30 +1,39 @@
 (() => {
-  const SHEETS_PER_CYCLE = 3;
+  'use strict';
+
   const LERP = 0.1;
   const SCROLL_SCALE = 0.85;
   const TOUCH_SCALE = 1.2;
 
-  function getSheetHeight() {
-    const s = document.querySelector('.tp-sheet');
-    return s ? s.offsetHeight : 280;
-  }
+  // Category metadata (drives rail labels & order). Centre default = works.
+  const CATS = {
+    works: { label: 'WORK',  sub: '作品' },
+    about: { label: 'ABOUT', sub: '關於我' },
+    fun:   { label: 'FUN',   sub: '趣味' },
+  };
+  const ORDER = ['works', 'about', 'fun'];
+  let centerCat = 'works';
 
+  // ── Scroll state ──────────────────────────────────────────────────────
   let targetOffset = 0;
   let currentOffset = 0;
   let SHEET_H = 280;
-  // Seamless-loop period in sheets. Set from #tp-strip[data-period-sheets]
-  // (3 sheets × works count) so each work appears once per period; falls back
-  // to a single about/works/fun cycle if the attribute is absent.
-  let PERIOD_SHEETS = SHEETS_PER_CYCLE;
+  let PERIOD_SHEETS = 1;     // sheets in ONE copy of the active strip
   let snapTimer = null;
   let touchStartY = 0;
-  let expandedSource = null;
   let isDragging = false;
   let dragLastY = 0;
   let hasDragged = false;
+  let paused = false;        // pause rAF transform writes during a switch
+  let animating = false;     // a category switch is in progress
 
+  // ── DOM refs ──────────────────────────────────────────────────────────
   const scene = document.getElementById('tp-scene');
+  const rail = document.getElementById('tp-rail');
+  const rollSvg = document.getElementById('tp-roll-svg');
+  const stripWrapper = document.getElementById('tp-strip-wrapper');
   const strip = document.getElementById('tp-strip');
+  const flyLayer = document.getElementById('tp-fly-layer');
   const overlay = document.getElementById('tp-overlay');
   const win = document.getElementById('tp-win');
   const winClose = document.getElementById('tp-win-close');
@@ -38,22 +47,101 @@
     fun:   '#8F7E40',
   };
 
-  function lerp(a, b, t) {
-    return a + (b - a) * t;
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // ── Roll / mini graphics ──────────────────────────────────────────────
+  // Capsule roll (no spindle — the spindle is a fixed separate layer). Same
+  // viewBox as the big roll so flyers scale uniformly between mini ↔ centre.
+  function rollSVG() {
+    return (
+      '<svg viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="44" y="18" width="380" height="240" rx="28" ry="120" fill="url(#tp-roll-grad)" stroke="#5A5A54" stroke-width="1.5"/>' +
+      '<ellipse cx="72" cy="138" rx="28" ry="120" fill="url(#tp-face-grad)" stroke="#5A5A54" stroke-width="1.5"/>' +
+      '<ellipse cx="72" cy="138" rx="21" ry="90" fill="none" stroke="#D5D0C4" stroke-width="1"/>' +
+      '<ellipse cx="72" cy="138" rx="15" ry="65" fill="none" stroke="#DDD9CE" stroke-width="1"/>' +
+      '<ellipse cx="72" cy="138" rx="10" ry="44" fill="#C4A87A" stroke="#5A5A54" stroke-width="1.5"/>' +
+      '<ellipse cx="72" cy="138" rx="6" ry="27" fill="#B89468"/>' +
+      '</svg>'
+    );
   }
 
-  // Scroll DOWN = pull paper = offset increases = strip moves up, revealing more paper
+  function miniLabel(cat) {
+    const m = CATS[cat];
+    return (
+      '<span class="tp-mini-label">' +
+      '<span class="en">' + m.label + '</span>' +
+      '<span class="zh">' + m.sub + '</span>' +
+      '</span>'
+    );
+  }
+
+  // ── Left rail ─────────────────────────────────────────────────────────
+  // Renders a mini roll for every category that isn't the active centre.
+  // dockLast (optional) forces a category to the bottom slot — used so the
+  // just-departed centre roll docks at the bottom of the rail.
+  function buildRail(dockLast) {
+    rail.innerHTML = '';
+    let cats = ORDER.filter((c) => c !== centerCat);
+    if (dockLast) cats = cats.filter((c) => c !== dockLast).concat(dockLast);
+    cats.forEach((cat) => {
+      const mini = document.createElement('div');
+      mini.className = 'tp-mini';
+      mini.dataset.cat = cat;
+      mini.setAttribute('role', 'button');
+      mini.setAttribute('tabindex', '0');
+      mini.setAttribute('aria-label', CATS[cat].label);
+      mini.innerHTML = rollSVG() + miniLabel(cat);
+      mini.addEventListener('click', () => switchCategory(cat));
+      mini.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchCategory(cat); }
+      });
+      rail.appendChild(mini);
+    });
+  }
+
+  // ── Centre strip ──────────────────────────────────────────────────────
+  function getSheetHeight() {
+    const s = strip.querySelector('.tp-sheet');
+    return s ? s.offsetHeight : 280;
+  }
+
+  // Build the active centre roll's paper from the matching <template>.
+  // Each strip is rendered 3× for the seamless infinite-scroll wrap.
+  function buildStrip(cat) {
+    const tpl = document.getElementById('tpl-sheets-' + cat);
+    const sheets = tpl ? tpl.content.querySelectorAll('.tp-sheet') : [];
+    PERIOD_SHEETS = Math.max(1, sheets.length);
+    let html = '';
+    for (let i = 0; i < 3; i++) sheets.forEach((s) => { html += s.outerHTML; });
+    strip.innerHTML = html;
+    SHEET_H = getSheetHeight();
+    attachSheetHandlers();
+    updatePaperClip();
+  }
+
+  function attachSheetHandlers() {
+    strip.querySelectorAll('.tp-sheet-window').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        if (hasDragged || animating) return;
+        e.stopPropagation();
+        openWindow(el.closest('.tp-sheet'));
+      });
+    });
+  }
+
+  // ── Scroll / drag / touch ─────────────────────────────────────────────
   scene.addEventListener('wheel', (e) => {
     e.preventDefault();
-    if (overlay.classList.contains('is-open')) return;
+    if (animating || overlay.classList.contains('is-open')) return;
     targetOffset += e.deltaY * SCROLL_SCALE;
     hideHint();
     scheduleSnap();
   }, { passive: false });
 
-  // Mouse drag — paper follows cursor
   scene.addEventListener('mousedown', (e) => {
-    if (overlay.classList.contains('is-open')) return;
+    if (animating || overlay.classList.contains('is-open')) return;
+    if (e.target.closest('#tp-rail')) return;   // let rail handle its own clicks
     isDragging = true;
     hasDragged = false;
     dragLastY = e.clientY;
@@ -83,9 +171,8 @@
     touchStartY = e.touches[0].clientY;
   }, { passive: true });
 
-  // Swipe down (finger moves down, dy negative) = pull = decrease offset
   scene.addEventListener('touchmove', (e) => {
-    if (overlay.classList.contains('is-open')) return;
+    if (animating || overlay.classList.contains('is-open')) return;
     const dy = touchStartY - e.touches[0].clientY;
     targetOffset += dy * TOUCH_SCALE;
     touchStartY = e.touches[0].clientY;
@@ -100,8 +187,8 @@
   }
 
   function snap() {
-    const nearest = Math.round(targetOffset / SHEET_H) * SHEET_H;
-    targetOffset = nearest;
+    if (animating) return;
+    targetOffset = Math.round(targetOffset / SHEET_H) * SHEET_H;
   }
 
   function hideHint() {
@@ -112,27 +199,105 @@
   }
 
   function tick() {
-    currentOffset = lerp(currentOffset, targetOffset, LERP);
+    if (!paused) {
+      currentOffset = lerp(currentOffset, targetOffset, LERP);
+      strip.style.transform = `translateY(${-currentOffset}px)`;
 
-    strip.style.transform = `translateY(${-currentOffset}px)`;
-
-    const period = SHEET_H * PERIOD_SHEETS;
-
-    // Clamp so user can't push paper back above the roll
-    if (targetOffset > period * 2) targetOffset = period * 2;
-
-    // When offset drops into the first period, jump up by one period seamlessly
-    if (currentOffset < period && targetOffset < period) {
-      currentOffset += period;
-      targetOffset += period;
+      const period = SHEET_H * PERIOD_SHEETS;
+      if (targetOffset > period * 2) targetOffset = period * 2;
+      if (currentOffset < period && targetOffset < period) {
+        currentOffset += period;
+        targetOffset += period;
+      }
     }
-
     requestAnimationFrame(tick);
   }
 
+  // ── Category switch — pull-out / shrink / dock / extend ────────────────
+  function flyRoll(fromRect, toRect, cat, duration) {
+    const sceneRect = scene.getBoundingClientRect();
+    const fly = document.createElement('div');
+    fly.className = 'tp-flyer';
+    fly.dataset.cat = cat;
+    fly.style.width = fromRect.width + 'px';
+    fly.style.height = fromRect.height + 'px';
+    fly.innerHTML = rollSVG() + miniLabel(cat);
+    flyLayer.appendChild(fly);
+
+    const x0 = fromRect.left - sceneRect.left;
+    const y0 = fromRect.top - sceneRect.top;
+    fly.style.transform = `translate(${x0}px, ${y0}px)`;
+    void fly.offsetWidth;   // commit start frame
+
+    const x1 = toRect.left - sceneRect.left;
+    const y1 = toRect.top - sceneRect.top;
+    const s = toRect.width / fromRect.width;
+    fly.style.transition = `transform ${duration}ms cubic-bezier(0.5, 0, 0.2, 1)`;
+    fly.style.transform = `translate(${x1}px, ${y1}px) scale(${s})`;
+    return fly;
+  }
+
+  async function switchCategory(next) {
+    if (animating || next === centerCat) return;
+    animating = true;
+    paused = true;
+    scene.classList.add('is-switching');
+    hideHint();
+
+    const prev = centerCat;
+    const incomingMini = rail.querySelector(`.tp-mini[data-cat="${next}"]`);
+    const incRect = incomingMini.getBoundingClientRect();
+    const centerRect = rollSvg.getBoundingClientRect();
+
+    // 1) Retract the current paper up into the roll.
+    const rolledUp = currentOffset + window.innerHeight + 240;
+    strip.classList.add('tp-anim');
+    strip.style.transform = `translateY(${-rolledUp}px)`;
+    await wait(300);
+
+    // 2) Hide the real centre; rebuild the rail for the post-switch layout
+    //    (centre = next; outgoing 'prev' docked to the bottom slot).
+    rollSvg.classList.add('tp-fade');
+    stripWrapper.classList.add('tp-fade');
+    centerCat = next;
+    buildRail(prev);
+    const outMini = rail.querySelector(`.tp-mini[data-cat="${prev}"]`);
+    const outRect = outMini.getBoundingClientRect();
+    outMini.style.visibility = 'hidden';   // flyer stands in until it lands
+
+    // 3) Fly: outgoing centre → rail (shrink+dock); incoming mini → centre (grow).
+    const FLY = 540;
+    const outFly = flyRoll(centerRect, outRect, prev, FLY);
+    const inFly = flyRoll(incRect, centerRect, next, FLY);
+    await wait(FLY);
+
+    // 4) Land: drop flyers, reveal docked mini, build the new centre strip.
+    outFly.remove();
+    inFly.remove();
+    outMini.style.visibility = '';
+    buildStrip(next);
+
+    const period = SHEET_H * PERIOD_SHEETS;
+    currentOffset = targetOffset = period * 2;
+    // Start rolled-up, then unroll the new paper downward.
+    strip.classList.remove('tp-anim');
+    strip.style.transform = `translateY(${-(currentOffset + window.innerHeight + 240)}px)`;
+    rollSvg.classList.remove('tp-fade');
+    stripWrapper.classList.remove('tp-fade');
+    void strip.offsetWidth;
+    strip.classList.add('tp-anim');
+    strip.style.transform = `translateY(${-currentOffset}px)`;
+    await wait(460);
+    strip.classList.remove('tp-anim');
+
+    paused = false;
+    animating = false;
+    scene.classList.remove('is-switching');
+  }
+
+  // ── Expanded window overlay ───────────────────────────────────────────
   function openWindow(sheet) {
-    if (overlay.classList.contains('is-open')) return;
-    expandedSource = sheet;
+    if (!sheet || overlay.classList.contains('is-open')) return;
 
     const rect = sheet.getBoundingClientRect();
     const ox = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
@@ -156,9 +321,7 @@
       });
     });
 
-    setTimeout(() => {
-      winFrame.src = sheet.dataset.url || '';
-    }, 80);
+    setTimeout(() => { winFrame.src = sheet.dataset.url || ''; }, 80);
   }
 
   function closeWindow() {
@@ -173,53 +336,24 @@
     }, 210);
   }
 
-  document.querySelectorAll('.tp-sheet-window').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      if (hasDragged) return;
-      e.stopPropagation();
-      openWindow(el.closest('.tp-sheet'));
-    });
-  });
-
   winClose.addEventListener('click', closeWindow);
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeWindow();
-  });
-
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeWindow(); });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeWindow();
   });
 
-  // Clip the strip-wrapper so both curved ends of the roll body define the paper edges.
-  //
-  // Wrapper origin = SVG (72, 18) — the face centre-top, so the wrapper extends
-  // left enough to include the face's right arc.
-  //
-  // SVG geometry (rx=28, ry=120, face cx=72 cy=138, roll body x=44..424 y=18..258):
-  //   face right arc  : (72,18) → (100,138)  [SVG]  =  (0,0)→(28s,120s) in wrapper
-  //   flat top        : x=72..396 at y=18     [SVG]  =  x=0..324s at y=0
-  //   roll right arc  : (396,18) → (424,138)  [SVG]  =  (324s,0)→(352s,120s) in wrapper
-  //
-  // Clip path (clockwise winding so interior = visible area):
-  //   M 0,0                                ← face centre-top
-  //   A rx,ry 0 0 1 faceEnd,centerY        ← face right arc  (CW, sweep=1)
-  //   L faceEnd,INF                        ← down left paper edge
-  //   L rollEnd,INF                        ← across bottom
-  //   L rollEnd,centerY                    ← up to roll right equator
-  //   A rx,ry 0 0 0 flatEnd,0              ← roll right arc (CCW, sweep=0)
-  //   Z                                    ← straight back across flat top to (0,0)
+  // ── Paper clip-path — follow the roll body's curved top edge ───────────
+  // (Geometry identical to the original; see notes in the SVG comment.)
   function updatePaperClip() {
-    const svgEl = document.getElementById('tp-roll-svg');
-    if (!svgEl) return;
-    const scale   = svgEl.getBoundingClientRect().width / 520;
-    const rx      = 28  * scale;
-    const ry      = 120 * scale;
-    const faceEnd = rx;          // (100-72)*scale  — face rightmost point
-    const centerY = ry;          // (138-18)*scale  — roll equator in wrapper y
-    const flatEnd = 324 * scale; // (396-72)*scale  — flat top ends here
-    const rollEnd = 352 * scale; // (424-72)*scale  — roll rightmost point
-    const INF     = 99999;
+    if (!rollSvg) return;
+    const scale = rollSvg.getBoundingClientRect().width / 520;
+    const rx = 28 * scale;
+    const ry = 120 * scale;
+    const faceEnd = rx;
+    const centerY = ry;
+    const flatEnd = 324 * scale;
+    const rollEnd = 352 * scale;
+    const INF = 99999;
     const p = [
       `M 0,0`,
       `A ${rx},${ry} 0 0 1 ${faceEnd},${centerY}`,
@@ -229,29 +363,30 @@
       `A ${rx},${ry} 0 0 0 ${flatEnd},0`,
       `Z`,
     ].join(' ');
-    document.getElementById('tp-strip-wrapper').style.clipPath = `path('${p}')`;
+    stripWrapper.style.clipPath = `path('${p}')`;
   }
 
+  // ── Init ──────────────────────────────────────────────────────────────
   function init() {
-    SHEET_H = getSheetHeight();
-    PERIOD_SHEETS = parseInt(strip.dataset.periodSheets, 10) || SHEETS_PER_CYCLE;
-    // Start 2 periods deep so pulling down reveals content from above seamlessly
+    buildRail();
+    buildStrip(centerCat);
+
     const period = SHEET_H * PERIOD_SHEETS;
     targetOffset = period * 2;
     currentOffset = period * 2;
     updatePaperClip();
+
     window.addEventListener('resize', () => {
       updatePaperClip();
-      // Sheet height is viewport-relative now — rescale the scroll offsets so
-      // the sheet currently in view stays aligned after a resize.
       const oldH = SHEET_H;
       SHEET_H = getSheetHeight();
-      if (oldH > 0 && SHEET_H !== oldH) {
+      if (oldH > 0 && SHEET_H !== oldH && !animating) {
         const ratio = SHEET_H / oldH;
         targetOffset *= ratio;
         currentOffset *= ratio;
       }
     });
+
     requestAnimationFrame(tick);
   }
 
