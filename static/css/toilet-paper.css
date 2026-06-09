@@ -578,77 +578,132 @@
 .tp-mini[data-cat="fun"]   .tp-mini-label .en { color: var(--accent-fun); }
 
 /* ═══════════════════════════════════════════════════════
-   ABOUT sheets — plain paper, no coloured title bar
+   ABOUT sheets — content styling
    ═══════════════════════════════════════════════════════ */
 
-.tp-sheet-window--about { cursor: pointer; }
-
-.tp-win-body--about {
-  justify-content: center;
-  gap: clamp(12px, 1.6vw, 20px);
-  padding: clamp(20px, 3vw, 40px) clamp(18px, 2.2vw, 30px) clamp(20px, 3vw, 40px) calc(var(--clip-safe-left) + clamp(18px, 2.2vw, 30px));
-  background: var(--bg-paper);
+.tp-sheet--about {
+  height: auto;
 }
 
-.tp-about-photo {
-  width: clamp(120px, 16vw, 200px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 2px solid rgba(42, 40, 34, 0.18);
-}
-
-.tp-about-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  /* match the printed-ink look of work heroes */
-  filter: url(#tp-duotone) url(#tp-ink-img) contrast(1.04) brightness(1.02);
-}
-
-.tp-about-lead {
-  max-width: 34ch;
-}
-
-.tp-win-body--list { justify-content: center; }
-
-.tp-about-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(8px, 1.2vh, 14px);
+.tp-about-section {
+  padding: 40px 20px 60px calc(var(--clip-safe-left) + 24px);
   font-family: var(--font-body);
-  font-size: clamp(11px, 1.1vw, 14px);
   color: var(--text-primary);
-  line-height: 1.45;
-  max-width: 38ch;
 }
 
-.tp-about-list li {
-  padding: 6px 12px;
-  background: rgba(143, 126, 64, 0.10);
-  border-left: 3px solid var(--accent-about);
+.tp-about-section h3 {
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
   filter: url(#tp-ink-text);
 }
 
-.tp-about-links {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-family: var(--font-ui);
-  font-size: clamp(11px, 1.1vw, 14px);
-  color: var(--accent-about);
+.tp-about-section p {
+  text-align: justify;
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.tp-about-section .link {
+  color: #17a2b8;
+  font-weight: 600;
+  text-decoration: none;
+  filter: url(#tp-ink-text);
+}
+
+.tp-about-section .link:hover {
+  color: #096472;
+  text-decoration: underline;
+}
+
+.tp-about-section .highlight {
+  background-color: rgb(253, 196, 235);
+  line-height: 1.6;
+  padding: 0 4px;
+  filter: url(#tp-ink-text);
+}
+
+.tp-about-section .light_text {
+  color: #ff8d54;
+  font-weight: 500;
+}
+
+.tp-about-section .title {
+  color: #096472;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 1rem;
+  filter: url(#tp-ink-text);
+}
+
+.tp-about-section .sub-title {
+  color: var(--text-primary);
+  font-size: 1.05rem;
   font-weight: 600;
 }
 
-/* Subtle status line (no accent block) for about sheets */
-.tp-win-statusbar--about {
-  background: rgba(184, 112, 88, 0.08);
-  color: var(--accent-about);
+.tp-about-section .right {
+  display: block;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  font-weight: normal;
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.tp-about-section .mobile {
+  display: none;
+}
+
+.tp-about-section ul {
+  padding-left: 1.2rem;
+  margin: 1rem 0;
+}
+
+.tp-about-section li {
+  text-align: justify;
+  margin-bottom: 0.6rem;
+  line-height: 1.5;
+}
+
+.tp-about-section .social-med {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.tp-about-section .social {
+  color: white;
+  background-color: #17a2b8;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  font-family: var(--font-ui);
+  text-decoration: none;
+  filter: url(#tp-ink-text);
+}
+
+.tp-about-section .site-about-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.tp-about-section .site-about-company img {
+  max-width: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.1);
+  filter: url(#tp-duotone) url(#tp-ink-img) contrast(1.02);
+}
+
+.tp-about-section .self-intro {
+  width: 100%;
 }
 
 /* ═══════════════════════════════════════════════════════

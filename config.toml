@@ -19,7 +19,7 @@ enableEmoji = true
     weight  = 1
   [[menu.nav]]
     name    = "About"
-    url     = "about"
+    url     = ""
     weight  = 2
   [[menu.nav]]
     name    = "Works"
@@ -111,7 +111,7 @@ enableEmoji = true
         title   = "Sitemap"
         [[params.footer.sitemap.link]]
           name = "About Company"
-          url  = "about"
+          url  = ""
         [[params.footer.sitemap.link]]
           name = "Projects"
           url  = "portfolio"

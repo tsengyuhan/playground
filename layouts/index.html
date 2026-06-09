@@ -150,7 +150,6 @@
 
 {{ $works := where .Site.RegularPages "Type" "works" }}
 {{ $funs  := where .Site.RegularPages "Type" "fun" }}
-{{ $about := .Site.GetPage "/about" }}
 
 {{/* WORK — each sheet = one work: hero image + title, opens its own page */}}
 <template id="tpl-sheets-works">
@@ -169,64 +168,7 @@
 {{/* ABOUT — split into several plain sheets (no coloured title bar), divided
      by perforations. Every sheet opens the full About page in the overlay. */}}
 <template id="tpl-sheets-about">
-  {{ $aboutURL := "about/" | absURL }}
-
-  <div class="tp-sheet" data-category="about" data-url="{{ $aboutURL }}" data-title="ABOUT ME / 關於我">
-    <div class="tp-perforation"></div>
-    <div class="tp-sheet-window tp-sheet-window--about">
-      <div class="tp-win-body tp-win-body--about">
-        <div class="tp-about-photo">
-          <img src="{{ "images/about_img.jpg" | absURL }}" alt="Yuhan Tseng" loading="lazy">
-        </div>
-        <div class="tp-win-name">ABOUT ME / 關於我</div>
-        <div class="tp-win-desc tp-about-lead">
-          Hi 🐾 I'm Yuhan Tseng（曾鈺涵）— an interaction designer &amp; new media artist
-          from Taiwan, based in Finland. I build playful interactive installations
-          exploring people, technology &amp; nature.
-        </div>
-      </div>
-      <div class="tp-win-statusbar tp-win-statusbar--about">
-        <span>about me / 關於我</span><span>click to open ▸</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="tp-sheet" data-category="about" data-url="{{ $aboutURL }}" data-title="ABOUT ME / 關於我">
-    <div class="tp-perforation"></div>
-    <div class="tp-sheet-window tp-sheet-window--about">
-      <div class="tp-win-body tp-win-body--about tp-win-body--list">
-        <div class="tp-win-name">{{ with $about }}{{ .Params.expertise_title | default "PLAYING WITH" }}{{ else }}PLAYING WITH{{ end }}</div>
-        <ul class="tp-about-list">
-          {{ with $about }}
-            {{ range .Params.expertise_sectors }}
-              <li>{{ . }}</li>
-            {{ end }}
-          {{ end }}
-        </ul>
-      </div>
-      <div class="tp-win-statusbar tp-win-statusbar--about">
-        <span>about me / 關於我</span><span>click to open ▸</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="tp-sheet" data-category="about" data-url="{{ $aboutURL }}" data-title="ABOUT ME / 關於我">
-    <div class="tp-perforation"></div>
-    <div class="tp-sheet-window tp-sheet-window--about">
-      <div class="tp-win-body tp-win-body--about">
-        <div class="tp-win-name">SAY HI / 找我玩</div>
-        <div class="tp-win-desc tp-about-links">
-          <span>🔗 LinkedIn</span>
-          <span>▶ YouTube</span>
-          <span>✉ tyhcindy@gmail.com</span>
-        </div>
-        <div class="tp-win-desc">Open to interaction design &amp; creative-tech collaborations.</div>
-      </div>
-      <div class="tp-win-statusbar tp-win-statusbar--about">
-        <span>about me / 關於我</span><span>click to open ▸</span>
-      </div>
-    </div>
-  </div>
+  {{ partial "about-sheets.html" . }}
 </template>
 
 {{ $jsVer := readFile "static/js/toilet-paper.js" | hash.FNV32a }}

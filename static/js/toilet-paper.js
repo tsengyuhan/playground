@@ -19,6 +19,8 @@
   let currentOffset = 0;
   let SHEET_H = 280;
   let PERIOD_SHEETS = 1;     // sheets in ONE copy of the active strip
+  let aboutSnapOffsets = [0];
+  let aboutMax = 0;
   let snapTimer = null;
   let touchStartY = 0;
   let isDragging = false;
@@ -106,17 +108,57 @@
     return s ? s.offsetHeight : 280;
   }
 
+  function isAboutMode() {
+    return centerCat === 'about';
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function getVisibleStripHeight() {
+    const rect = stripWrapper.getBoundingClientRect();
+    return Math.max(0, window.innerHeight - rect.top);
+  }
+
+  function measureAboutStrip() {
+    if (!isAboutMode()) return;
+    const sheets = Array.from(strip.querySelectorAll('.tp-sheet'));
+    aboutSnapOffsets = sheets.length ? sheets.map((sheet) => sheet.offsetTop) : [0];
+    aboutMax = Math.max(0, strip.offsetHeight - getVisibleStripHeight());
+  }
+
+  function measureAboutStripSoon() {
+    requestAnimationFrame(measureAboutStrip);
+  }
+
+  function clampAboutOffset(value) {
+    return clamp(value, 0, aboutMax);
+  }
+
+  function getLoopStartOffset() {
+    return SHEET_H * PERIOD_SHEETS * 2;
+  }
+
   // Build the active centre roll's paper from the matching <template>.
-  // Each strip is rendered 3× for the seamless infinite-scroll wrap.
+  // Looping strips are rendered 3×; about is finite and uses natural heights.
   function buildStrip(cat) {
     const tpl = document.getElementById('tpl-sheets-' + cat);
     const sheets = tpl ? tpl.content.querySelectorAll('.tp-sheet') : [];
     PERIOD_SHEETS = Math.max(1, sheets.length);
     let html = '';
-    for (let i = 0; i < 3; i++) sheets.forEach((s) => { html += s.outerHTML; });
+    const copies = cat === 'about' ? 1 : 3;
+    for (let i = 0; i < copies; i++) sheets.forEach((s) => { html += s.outerHTML; });
     strip.innerHTML = html;
     SHEET_H = getSheetHeight();
-    attachSheetHandlers();
+    if (cat === 'about') {
+      measureAboutStrip();
+      strip.querySelectorAll('img').forEach((img) => {
+        if (!img.complete) img.addEventListener('load', measureAboutStripSoon, { once: true });
+      });
+    } else {
+      attachSheetHandlers();
+    }
     updatePaperClip();
   }
 
@@ -188,6 +230,14 @@
 
   function snap() {
     if (animating) return;
+    if (isAboutMode()) {
+      const clampedTarget = clampAboutOffset(targetOffset);
+      targetOffset = aboutSnapOffsets.reduce((nearest, offset) => {
+        return Math.abs(offset - clampedTarget) < Math.abs(nearest - clampedTarget) ? offset : nearest;
+      }, aboutSnapOffsets[0] || 0);
+      targetOffset = clampAboutOffset(targetOffset);
+      return;
+    }
     targetOffset = Math.round(targetOffset / SHEET_H) * SHEET_H;
   }
 
@@ -200,14 +250,23 @@
 
   function tick() {
     if (!paused) {
+      if (isAboutMode()) {
+        targetOffset = clampAboutOffset(targetOffset);
+        currentOffset = clampAboutOffset(currentOffset);
+      }
+
       currentOffset = lerp(currentOffset, targetOffset, LERP);
       strip.style.transform = `translateY(${-currentOffset}px)`;
 
-      const period = SHEET_H * PERIOD_SHEETS;
-      if (targetOffset > period * 2) targetOffset = period * 2;
-      if (currentOffset < period && targetOffset < period) {
-        currentOffset += period;
-        targetOffset += period;
+      if (isAboutMode()) {
+        currentOffset = clampAboutOffset(currentOffset);
+      } else {
+        const period = SHEET_H * PERIOD_SHEETS;
+        if (targetOffset > period * 2) targetOffset = period * 2;
+        if (currentOffset < period && targetOffset < period) {
+          currentOffset += period;
+          targetOffset += period;
+        }
       }
     }
     requestAnimationFrame(tick);
@@ -277,8 +336,7 @@
     outMini.style.visibility = '';
     buildStrip(next);
 
-    const period = SHEET_H * PERIOD_SHEETS;
-    currentOffset = targetOffset = period * 2;
+    currentOffset = targetOffset = next === 'about' ? 0 : getLoopStartOffset();
     // Start rolled-up, then unroll the new paper downward.
     strip.classList.remove('tp-anim');
     strip.style.transform = `translateY(${-(currentOffset + window.innerHeight + 240)}px)`;
@@ -371,13 +429,18 @@
     buildRail();
     buildStrip(centerCat);
 
-    const period = SHEET_H * PERIOD_SHEETS;
-    targetOffset = period * 2;
-    currentOffset = period * 2;
+    targetOffset = getLoopStartOffset();
+    currentOffset = getLoopStartOffset();
     updatePaperClip();
 
     window.addEventListener('resize', () => {
       updatePaperClip();
+      if (isAboutMode()) {
+        measureAboutStrip();
+        targetOffset = clampAboutOffset(targetOffset);
+        currentOffset = clampAboutOffset(currentOffset);
+        return;
+      }
       const oldH = SHEET_H;
       SHEET_H = getSheetHeight();
       if (oldH > 0 && SHEET_H !== oldH && !animating) {
