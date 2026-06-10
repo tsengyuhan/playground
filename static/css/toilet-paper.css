@@ -133,6 +133,47 @@
   white-space: nowrap;
 }
 
+/* ─── Rollback Button ────────────────────────────────── */
+
+.tp-rollback {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  
+  background: var(--bg-paper);
+  border: 1px solid var(--chrome-border);
+  border-bottom: 2px solid var(--chrome-border);
+  padding: 8px 18px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+
+.tp-rollback.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tp-rollback:hover {
+  background: #fff;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 2px 4px 0px rgba(0,0,0,0.15);
+}
+
+.tp-rollback:active {
+  transform: translateX(-50%) translateY(0);
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+}
+
 /* ─── Paper strip ────────────────────────────────────── */
 
 #tp-strip-wrapper {
@@ -582,6 +623,7 @@
    ═══════════════════════════════════════════════════════ */
 
 .tp-sheet--about {
+  min-height: var(--sheet-height);
   height: auto;
 }
 

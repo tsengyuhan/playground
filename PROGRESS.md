@@ -1,8 +1,8 @@
 # 改版進度
 
-最後更新：2026-06-08
+最後更新：2026-06-10
 
-## 狀態：Phase 1 + 首頁（捲筒互動 v2）已完成 — 等待視覺參考以進行完整改版
+## 狀態：Phase 1 + 首頁（捲筒互動 v2.7）已完成 — 等待視覺參考以進行完整改版
 
 ---
 
@@ -63,6 +63,15 @@
 7. 點擊中央紙張仍維持原本行為：放大用 overlay（iframe）開啟完整內容。
 8. 關閉此檔的「儲存時格式化」（`.vscode/settings.json` 加 `editor.formatOnSave:false` + `[html]` 區塊），避免 Hugo 模板被 formatter 破壞。
 
+### Phase 2.7：About 衛生紙完整內容 + 拉衛生紙捲動 ✅ 已完成（2026-06-10）
+1. **單一來源**：About 內容改由 `layouts/partials/about-sheets.html` 統一管理（從舊 `about/list.html` 搬入），首頁 `tpl-sheets-about` 改 `{{ partial }}` 引入。
+2. **直接顯示完整內容**：ABOUT 不再是摘要、不再點擊開 iframe overlay；內容切成約 6 張畫面高的 sheet（Intro / Profile / Education / Work①②③）。
+3. **「拉衛生紙」捲動（`toilet-paper.js`）**：about strip **反向渲染**、起始只顯示最底的 Intro（紙還沒拉下）；三種輸入「**往下＝拉出**」，下一張從**上方**冒出、舊的往下推，顯示順序仍 Intro→…→Work③；snap 對齊各 sheet、有限捲動不迴圈。works/fun 維持等高 + 3× 迴圈 + overlay 不變。
+4. **`roll back` 按鈕**（`#tp-rollback`）：拉到底淡入，點擊平滑回捲到 Intro。
+5. **窄欄樣式**（`toilet-paper.css`）：`.tp-sheet--about` 用 `min-height:var(--sheet-height)`、日期改堆疊、`--clip-safe-left` 避開捲弧，重現 highlight/light_text/link 等視覺。
+6. **移除獨立 `/about/` 頁**：刪 `content/about/_index.md` 與 `layouts/about/*`；選單與 footer 的 About 連結改指首頁。
+7. 桌機（1440）／手機（390）以 headless Chrome + CDP 驗證：初始只見 Intro、下拉新 sheet 從上方出現、拉到底見 roll back 並可點擊回頂、works/fun 不受影響。
+
 ### Phase 3：視覺改版
 *（受阻 — 等待視覺參考）*
 1. 在 `_variables.scss` 定義新的配色與字體
@@ -102,3 +111,4 @@
 - 優化首頁衛生紙 UI：個別 WORK 紙張、加上快取破壞參數的 CSS/JS 連結、印刷質感／雙色調濾鏡、配合視窗高度的紙張高度、場景置中，以及為捲筒曲面左緣保留僅作用於內容的裁切安全邊距（2026-06-06）
 - 首頁捲筒互動 v2（分類切換）：中央大捲筒只放單一分類（預設 WORK，每張紙=一個作品）；左側軌道 `#tp-rail` 放另外兩類小捲筒；點擊小捲筒以「抽離→縮小→docked 左下／放大進中央→伸紙」過場切換中央內容；三分類改用 `<template>` + JS `buildStrip`/`buildRail`/`switchCategory` 驅動；新增 `layouts/partials/tp-item-sheet.html`；ABOUT 拆成多張無色塊純紙張；新增獨立固定灰色圓柱層 `#tp-spindle-svg`（穿過紙筒、右端收進核心、外緣切平）；桌機／手機以 headless Chrome 截圖驗證並用 CDP 點擊驗證切換（rail/center 狀態正確）（2026-06-08）
 - 關閉 `layouts/index.html` 的儲存時自動格式化（`.vscode/settings.json`），避免 Prettier 破壞 Hugo 模板（2026-06-08）
+- About 衛生紙改版：內容統一到單一來源 `layouts/partials/about-sheets.html`（切成約 6 張畫面高 sheet）；ABOUT 改為直接顯示完整經歷、不再點擊開頁；捲動改「拉衛生紙」R1（strip 反向、起始只見 Intro、往下拉新 sheet 從上方冒出、拉到底出現 `#tp-rollback` 回捲鈕）；移除獨立 `/about/` 頁、選單與 footer About 連結改指首頁；works/fun 維持原行為；桌機／手機 headless Chrome 驗證（2026-06-10）

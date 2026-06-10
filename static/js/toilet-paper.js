@@ -42,6 +42,7 @@
   const winTitle = document.getElementById('tp-win-title');
   const winFrame = document.getElementById('tp-win-frame');
   const hint = document.getElementById('tp-hint');
+  const rollback = document.getElementById('tp-rollback');
 
   const ACCENTS = {
     about: '#B87058',
@@ -116,16 +117,20 @@
     return Math.min(max, Math.max(min, value));
   }
 
-  function getVisibleStripHeight() {
-    const rect = stripWrapper.getBoundingClientRect();
-    return Math.max(0, window.innerHeight - rect.top);
-  }
-
   function measureAboutStrip() {
     if (!isAboutMode()) return;
+    const wasAtIntro = Math.abs(targetOffset - aboutMax) < 2;
     const sheets = Array.from(strip.querySelectorAll('.tp-sheet'));
     aboutSnapOffsets = sheets.length ? sheets.map((sheet) => sheet.offsetTop) : [0];
-    aboutMax = Math.max(0, strip.offsetHeight - getVisibleStripHeight());
+    aboutMax = Math.max(0, aboutSnapOffsets[aboutSnapOffsets.length - 1] || 0);
+    if (wasAtIntro) {
+      targetOffset = aboutMax;
+      currentOffset = aboutMax;
+    } else {
+      targetOffset = clampAboutOffset(targetOffset);
+      currentOffset = clampAboutOffset(currentOffset);
+    }
+    updateRollback();
   }
 
   function measureAboutStripSoon() {
@@ -136,6 +141,16 @@
     return clamp(value, 0, aboutMax);
   }
 
+  function getAboutStartOffset() {
+    return aboutMax;
+  }
+
+  function updateRollback() {
+    if (!rollback) return;
+    const show = isAboutMode() && Math.abs(targetOffset) < 2 && Math.abs(currentOffset) < 4;
+    rollback.classList.toggle('is-visible', show);
+  }
+
   function getLoopStartOffset() {
     return SHEET_H * PERIOD_SHEETS * 2;
   }
@@ -144,11 +159,12 @@
   // Looping strips are rendered 3×; about is finite and uses natural heights.
   function buildStrip(cat) {
     const tpl = document.getElementById('tpl-sheets-' + cat);
-    const sheets = tpl ? tpl.content.querySelectorAll('.tp-sheet') : [];
+    const sheets = tpl ? Array.from(tpl.content.querySelectorAll('.tp-sheet')) : [];
     PERIOD_SHEETS = Math.max(1, sheets.length);
     let html = '';
     const copies = cat === 'about' ? 1 : 3;
-    for (let i = 0; i < copies; i++) sheets.forEach((s) => { html += s.outerHTML; });
+    const orderedSheets = cat === 'about' ? sheets.slice().reverse() : sheets;
+    for (let i = 0; i < copies; i++) orderedSheets.forEach((s) => { html += s.outerHTML; });
     strip.innerHTML = html;
     SHEET_H = getSheetHeight();
     if (cat === 'about') {
@@ -176,7 +192,7 @@
   scene.addEventListener('wheel', (e) => {
     e.preventDefault();
     if (animating || overlay.classList.contains('is-open')) return;
-    targetOffset += e.deltaY * SCROLL_SCALE;
+    targetOffset += (isAboutMode() ? -e.deltaY : e.deltaY) * SCROLL_SCALE;
     hideHint();
     scheduleSnap();
   }, { passive: false });
@@ -228,6 +244,14 @@
     snapTimer = setTimeout(snap, delay);
   }
 
+  if (rollback) {
+    rollback.addEventListener('click', () => {
+      if (!isAboutMode() || animating) return;
+      targetOffset = getAboutStartOffset();
+      rollback.classList.remove('is-visible');
+    });
+  }
+
   function snap() {
     if (animating) return;
     if (isAboutMode()) {
@@ -257,6 +281,7 @@
 
       currentOffset = lerp(currentOffset, targetOffset, LERP);
       strip.style.transform = `translateY(${-currentOffset}px)`;
+      updateRollback();
 
       if (isAboutMode()) {
         currentOffset = clampAboutOffset(currentOffset);
@@ -336,7 +361,8 @@
     outMini.style.visibility = '';
     buildStrip(next);
 
-    currentOffset = targetOffset = next === 'about' ? 0 : getLoopStartOffset();
+    currentOffset = targetOffset = next === 'about' ? getAboutStartOffset() : getLoopStartOffset();
+    updateRollback();
     // Start rolled-up, then unroll the new paper downward.
     strip.classList.remove('tp-anim');
     strip.style.transform = `translateY(${-(currentOffset + window.innerHeight + 240)}px)`;
@@ -437,8 +463,6 @@
       updatePaperClip();
       if (isAboutMode()) {
         measureAboutStrip();
-        targetOffset = clampAboutOffset(targetOffset);
-        currentOffset = clampAboutOffset(currentOffset);
         return;
       }
       const oldH = SHEET_H;

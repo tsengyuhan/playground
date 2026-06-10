@@ -28,6 +28,9 @@ Hugo 覆寫優先順序：根目錄 `layouts/` 與 `assets/` 中的檔案會覆�
 ### 導覽（現況）
 `Home → About → Works → Fun → AR Filter → Contact`
 
+> 註：獨立的 `/about/` 頁已移除（首頁衛生紙的 ABOUT 即完整自我介紹）。選單與 footer 的
+> `About` 連結改指首頁（`config.toml` 中 `url = ""`）。
+
 ### 內容清單
 
 #### Works（`content/works/`）— 現況
@@ -61,8 +64,10 @@ Hugo 覆寫優先順序：根目錄 `layouts/` 與 `assets/` 中的檔案會覆�
 - beauty.md、dance_lion.md、donut.md、escape.md、fishing_game.md、hollow-start.md、loop_face.md
 - mccafe.md — **目前停用**（`draft: true`，或透過 commit「disable McCafe filter」停用）
 
-#### About（`content/about/_index.md`）
-目前的自我介紹："Hi 🐾 I am Yuhan. I am from Taiwan 🇹🇼 and studying in Finland 🇫🇮 now. With the background in New Media Design and Technology Education, I am passionate about interaction design and interactive installations..."
+#### About（`layouts/partials/about-sheets.html`）
+About 內容的**唯一來源**已改為這個 partial（首頁衛生紙的 ABOUT 由它渲染）；原
+`content/about/_index.md` 與 `/about/` 頁已移除。內容為完整自我介紹＋經歷
+（Intro / Profile / Education / Work），切成約 6 張畫面高的 sheet。
 
 **新版自我介紹：待定（使用者準備中）**
 
