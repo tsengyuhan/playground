@@ -1,52 +1,42 @@
-# Fix: Toilet paper sheet content clipped by the curved roll edge
+# 修正：捲筒衛生紙紙張內容被曲面捲邊裁切
 
-## Problem
+## 問題
 
-On the homepage toilet-paper UI, content near the left side of each sheet can be
-cut off by the curved roll edge. The issue was first visible on WORK project
-images, then also appeared on titlebar controls/text and statusbar text.
+在首頁的捲筒衛生紙 UI 上，每張紙左側附近的內容可能被曲面捲邊切掉。此問題最早出現在 WORK 專案圖片上，後來也出現在標題列的控制項／文字以及狀態列文字上。
 
-## Root Cause
+## 根本原因
 
-`#tp-strip-wrapper` is clipped by `updatePaperClip()` in
-`static/js/toilet-paper.js`. The clip path intentionally hides the left curved
-roll-face zone so the paper looks like it emerges from the roll.
+`#tp-strip-wrapper` 在 `static/js/toilet-paper.js` 的 `updatePaperClip()` 中被裁切。clip path 刻意隱藏左側曲面捲邊區域，讓紙張看起來像是從捲筒中拉出。
 
-The hidden zone is proportional to the strip width:
+被隱藏的區域與紙條寬度成比例：
 
-- clip boundary: `faceEnd = 28 * scale`
-- wrapper width: `352 * scale`
-- hidden fraction: `28 / 352 = 7.95%`
+- 裁切邊界：`faceEnd = 28 * scale`
+- wrapper 寬度：`352 * scale`
+- 隱藏比例：`28 / 352 = 7.95%`
 
-Any visible content that starts before this boundary can be clipped.
+任何起始位置在此邊界之前的可見內容都可能被裁切。
 
-## Final Fix
+## 最終修正
 
-**File:** `static/css/toilet-paper.css`
+**檔案：** `static/css/toilet-paper.css`
 
-Add a shared safe-left variable:
+加入一個共用的安全左側變數：
 
 ```css
 --clip-safe-left: calc(var(--strip-width) * 0.09);
 ```
 
-Do **not** move `.tp-sheet-window` itself. The sheet/window backgrounds must stay
-aligned with the paper edge so the titlebar color strip and paper body continue
-to be clipped naturally by the curved roll.
+**不要**移動 `.tp-sheet-window` 本身。紙張／視窗的背景必須與紙張邊緣對齊，標題列的色帶與紙張本體才能繼續被曲面捲邊自然裁切。
 
-Instead, apply the safe-left offset only to internal content padding:
+改為僅將安全左側偏移套用到內部內容的 padding：
 
 - `.tp-win-titlebar`
 - `.tp-win-body`
 - `.tp-win-body--work`
 - `.tp-win-statusbar`
 
-This keeps the colored bars flush with the paper edge while moving controls,
-labels, folder icons, project images, descriptions, and status text into the
-fully visible area.
+如此一來，彩色色帶仍與紙張邊緣齊平，同時把控制項、標籤、資料夾圖示、專案圖片、描述與狀態文字移入完全可見的區域。
 
-## Verification
+## 驗證
 
-Checked the homepage at `http://localhost:1413/playground/` with a desktop-size
-Chrome headless screenshot. The titlebar controls and WORK titlebar content are
-visible, and the background bars remain aligned to the left paper edge.
+以桌面尺寸的 Chrome headless 截圖檢查首頁 `http://localhost:1413/playground/`。標題列控制項與 WORK 標題列內容皆可見，背景色帶仍與左側紙張邊緣對齊。
