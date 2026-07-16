@@ -3,3 +3,9 @@
 .hugo_build.lock
 *.mov
 *.mp4
+
+# Claude Code 本機設定
+.claude/
+
+# Hugo 建置輸出（由原始碼建置，不入庫）
+public/
